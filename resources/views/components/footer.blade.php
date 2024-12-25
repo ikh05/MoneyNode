@@ -1,6 +1,6 @@
 <footer class="bg-dark-subtle text-white p-3 mt-5 position-absolute bottom-0 start-0 end-0">
     <div class="container text-center">
-        <p>&copy; 2024 Website Kami</p>
+        <p>&copy; 2024 | MoneyNode</p>
     </div>
 </footer>
 
