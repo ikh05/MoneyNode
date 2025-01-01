@@ -11,11 +11,12 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('money-books', function (Blueprint $table) {
+        Schema::create('books', function (Blueprint $table) {
             $table->id();
+            $table->foreignId('user_id')->constrained('users'); // Relasi ke pengguna
+            $table->foreignId('icon_id')->constrained('icons')->default(1); // Ikon untuk kategori
             $table->string('name');
-            $table->string('diskripsi');
-            $table->string('path-icon');
+            $table->text('description')->nullable();
             $table->timestamps();
         });
     }
@@ -25,6 +26,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('money-books');
+        Schema::dropIfExists('books');
     }
 };

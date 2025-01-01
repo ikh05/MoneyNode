@@ -1,10 +1,7 @@
 @extends('layout.no-navbar')
 
 @section('content')
-    @session('massage')
-        <div class="alert alert-info" role="alert">
-            {{ $request->session('message') }}
-        </div>
-    @endsession
-    <x-form.sign />
+    <div class="position-absolute top-50 translate-middle-y">
+        <x-form.sign />
+    </div>
 @endsection

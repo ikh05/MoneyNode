@@ -1,0 +1,86 @@
+/* Styling untuk efek 3D flip */
+.card-container {
+    perspective: 1000px;
+}
+.card-flip {
+    width: 100%;
+    height: 400px;
+    transform-style: preserve-3d;
+    transition: transform 0.6s;
+    cursor: pointer;
+}
+.flip-active {
+    transform: rotateY(180deg);
+}
+.card-front, .card-back {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    backface-visibility: hidden;
+}
+.card-front {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 10px;
+}
+.card-back {
+    transform: rotateY(180deg);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 10px;
+}
+
+
+/* Style Card record */
+.record-card p{
+    margin: 0;
+}
+
+.stickScroll::-webkit-scrollbar {
+    width: 4px; /* Lebar scrollbar */
+    height: 4px; /* Tinggi scrollbar horizontal */
+  }
+
+/* Warna track scrollbar (background) */
+.stickScroll::-webkit-scrollbar-track {
+    margin-top: 3px;
+    margin-bottom: 3px;
+    background: #ffffff00;
+}
+
+/* Warna thumb scrollbar (bagian yang bergerak) */
+.stickScroll::-webkit-scrollbar-thumb {
+    background: rgb(105, 210, 255);
+    border-radius: 10px;
+}
+
+/* Warna thumb saat hover */
+.stickScroll::-webkit-scrollbar-thumb:hover {
+    background: rgb(22, 185, 255);
+}
+
+
+.scrollbar-hidden::-webkit-scrollbar {
+    width: 0; /* Lebar scrollbar */
+    height: 0; /* Tinggi scrollbar horizontal */
+  }
+
+/* Warna track scrollbar (background) */
+.scrollbar-hidden::-webkit-scrollbar-track {
+    margin-top: 0;
+    margin-bottom: 0;
+    background: #ffffff00;
+}
+
+/* Warna thumb scrollbar (bagian yang bergerak) */
+.scrollbar-hidden::-webkit-scrollbar-thumb {
+    background:  #ffffff00;
+    border-radius: 10px;
+}
+
+/* Warna thumb saat hover */
+.scrollbar-hidden::-webkit-scrollbar-thumb:hover {
+    background:  #ffffff00;
+}

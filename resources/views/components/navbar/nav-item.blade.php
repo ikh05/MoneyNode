@@ -1,4 +1,7 @@
-@props(['label'])
-<li class="nav-item">
-    <a class="nav-link active" aria-current="page" href="/">{{ $label }}</a>
-</li>
+@props(['label' => ''])
+<div class="nav-item">
+    <a class="nav-link text-center link-light" {{ $attributes }}>
+        <img src="src/img/nav/{{ $slot }}.png" alt="{{ $slot }}">
+        <p class="mb-0">{{ $slot }}</p>
+    </a>
+</div>
