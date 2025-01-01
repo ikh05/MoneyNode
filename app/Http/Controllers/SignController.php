@@ -42,9 +42,6 @@ class SignController extends Controller{
         
         $validatedData['password'] = bcrypt($validatedData['password']);
         $user = User::create($validatedData);
-        $book = Book::default_($user);
-        Account::default_($book);
-        TransactionParty::default_($book);
         return $this->login($request);
     }
 

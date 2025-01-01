@@ -6,7 +6,7 @@
     <div class="d-flex gap-2">
 
         @foreach ($auth->books as $b)
-        <a class="text-center link-light link-underline link-underline-opacity-0 btn btn-outline-danger {{ $book->id ===  $b->id ? 'active' : ''}}" href="/book/{{ $b->id }}">
+        <a class="text-center link-light link-underline link-underline-opacity-0 btn btn-outline-danger {{ $book->id ===  $b->id ? 'active' : ''}}" href="?book={{ $b->id }}">
             <img src="/src/img/icon/{{ $b->icon->path }}" alt="icon book">
             <p>{{ $b->name }}</p>
             </a>
@@ -17,9 +17,19 @@
         {{-- rekap dari buku ini --}}
     </div>
     {{-- @dd($records) --}}
-    <div class="container overflow-auto" style="max-height: 100vh;">
+    <div class="container">
 @foreach ($records as $date => $item)
-        <x-record :date=$date :data="$item" :total="$item->sumIf('nominal', 'type', 'income') - $item->sumIf('nominal', 'type', 'expense')" :transfer="$item->sumIf('nominal', 'type', 'transfer')"/>
+    @php 
+        $total = $item->sumIf('nominal', 'type', 'income') - $item->sumIf('nominal', 'type', 'expense');
+        $transfer = $item->sumIf('nominal', 'type', 'transfer');
+    @endphp
+    <x-card.index component="card.record" :data="$item" >
+        <p class="mb-0 fw-bold">{{ Str::dateForID($date, 'l, d/m/Y') }}</p>
+        <div class="text-end small fst-italic position-absolute end-0 me-3 top-50 translate-middle-y">
+            <p class="fw-bold text-{{ $total > 0 ? 'success' : 'danger' }} {{ $total ? '' : 'd-none' }} mb-0 ">{{ $total > 0 ? 'Pemasukkan' : 'Pengeluaran' }}: {{ Str::toRupiah( $total, false) }}</p>
+            <p class="fw-bold text-secondary {{ $transfer ? '' : 'd-none' }} mb-0 ">Transfer: {{ Str::toRupiah( $transfer ) }}</p>
+        </div>
+    </x-card>
 @endforeach
     </div>
     <!-- Button trigger modal -->
