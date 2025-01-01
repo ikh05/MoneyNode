@@ -7,12 +7,10 @@
                 <div class="modal-header" style="height: 5rem;">
                     <x-form.dropdown.transaction_type />
                     <div class="position-absolute end-0 me-3">
-                        <button type="submit" class="btn"> <x-image.nav file_name="check" height="20" /> </button>
-                        <button type="button" class="btn" data-bs-dismiss="modal"> <x-image.nav file_name="cancel" height="20" /> </button>
+                        <button type="submit" class="btn"> <img src="/src/img/nav/check.png" alt="Check" height="20"> </button>
+                        <button type="button" class="btn" data-bs-dismiss="modal"> <img src="/src/img/nav/cancel.png" alt="Cencel" height="20"></button>
                     </div>
                 </div>
-
-
 
 
                 <div class="modal-body" style="">
