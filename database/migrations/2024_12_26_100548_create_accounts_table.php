@@ -12,13 +12,15 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('accounts', function (Blueprint $table) {
-            // kategori uang cash, virtual, bank, hutang, piutang
+            // kategori uang cash, virtual, hutang, piutang
             $table->id();
             $table->foreignId('book_id')->constrained()->cascadeOnDelete();
             $table->string('name');
             $table->decimal('first_nominal', 15, 2);
             $table->string('currency', 3)->default('IDR');
             $table->foreignId('icon_id')->nullable()->constrained('icons')->cascadeOnDelete();
+            $table->boolean('is_asset')->default(true);
+            $table->string('description')->nullable(); //untuk memberi keterangan bahwa peruntukan akun untuk apa
             $table->enum('type', ['cash', 'virtual', 'hutang', 'piutang'])->nullable();
             $table->timestamps();
         });

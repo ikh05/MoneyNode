@@ -1,3 +1,5 @@
+{{-- data = account --}}
+
 <li class="dropdown-item w-100 {{ isset($active) ? 'active' : '' }}" value="{{ $data->id }}" onclick="selectAccount(this)">
     <div class="row">
         <div class="col-4 align-items-center d-flex">
@@ -10,7 +12,7 @@
         </div>
         <div class="col-8 text-end">
             <p class="m-0 p-0 fs-6">{{ $data->name }}</p>
-            <p class="saldo m-0 p-0 {{ !isset($active) ? 'text-secondary' : '' }} small">{{ Str::toRupiah($data->lastSaldo()) }}</p>
+            <p class="saldo m-0 p-0 {{ !isset($active) ? 'text-secondary' : '' }} small">{{ Str::toRupiah($data->records->totalNominalInAccount(['toMe' => $data->transferToMe, 'fromMe' => $data->transferFromMe])) }}</p>
         </div>
     </div>    
 </li>

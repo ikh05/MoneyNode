@@ -20,7 +20,7 @@
                             <x-form.radio.category :data="$categories['expense']" name="category_id" color="danger" :firstChecked=true />
                         </div>
                         <div id="transfer_categories" class="d-none d-flex justify-content-around">
-                            <x-form.dropdown.account :data="$book->accounts" name="to_account_id" :label=true keterangan="tujuan transfer"/>
+                            <x-form.dropdown.account :data="$accounts" name="to_account_id" :label=true keterangan="tujuan transfer"/>
                         </div>
                         <div id="income_categories" class="d-none">
                             <x-form.radio.category :data="$categories['income']" name="category_id" color="success" />
@@ -45,7 +45,7 @@
                             <div class="row gap-1 w-100 m-0" style="height: 3.5rem;">
                                 {{-- account --}}
                                 <div class="col-3 p-0">
-                                    <x-form.dropdown.account :data="$book->accounts" name="account_id" keterangan="Sumber dana"/>
+                                    <x-form.dropdown.account :data="$accounts" name="account_id" keterangan="Sumber dana"/>
                                 </div>
                                 <div class="col-3 p-0">
                                     <div class="w-100 h-100">

@@ -1,3 +1,4 @@
+{{-- data = record --}}
 <div id="record_{{ $data->id }}" class="d-flex position-relative w-100 align-items-center item-record">
     <div class="d-flex">
 @if ($data->account_id !== null)

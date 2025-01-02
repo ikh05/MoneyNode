@@ -17,7 +17,7 @@ return new class extends Migration
             $table->string('name'); // Nama ikon
             $table->foreignId('uploader_id')->nullable()->constrained('users'); // Relasi ke pengguna sebagai orang yang mengapload
             $table->string('path'); // Lokasi file ikon
-            $table->boolean('isGlobel')->default(FALSE); // apakah bisa dilihat orang lain
+            $table->boolean('is_globel')->default(FALSE); // apakah bisa dilihat orang lain
             $table->json('type')->nullable();
             $table->timestamps();
         });

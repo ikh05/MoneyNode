@@ -15,41 +15,49 @@ use Illuminate\Support\Facades\Auth;
 use PhpParser\ErrorHandler\Collecting;
 
 class DashboardController extends Controller{
-    protected $data = [];
-    protected function getBook(Request $request){
+    protected $data;
+    public function __construct(){
         $user = Auth::user();
-        // Jika tidak ada ID buku diberikan, ambil buku pertama milik user
-        if (!isset($request['book'])) $book = $user->books->first(); // Andaikan ada relasi 'books' di model User
-        else $book = $user->books->where('id', $request['book'])->first(); // Cari buku berdasarkan ID, pastikan buku tersebut milik pengguna
-        if (!$book) abort(403, 'Anda tidak memiliki akses ke buku ini');
-        else if(isset($request['book'])) $this->data = ['req_book' => $book->id];
-        return $book;
-    }
+        $book_id = request('book');
+        $load_book = ['icon'];
 
-    public function account(Request $request){
-        $user = Auth::user();
-        $book = $this->getBook($request);
-        $this->data = array_merge($this->data, [
-            'title' => $book->name,
+        // Jika tidak ada ID buku diberikan, ambil buku pertama milik user, sebaliknya ambil buku yang dengan ID yang diberikan
+        if(!$book_id) $book = $user->books->load($load_book)->first();
+        else $book = $user->books->where('id', $book_id)->load($load_book)->first(); // ambil buku dengan model user (memastikan buku milik user)
+        
+        // mengecek apakah ada buku yang diambil dari proses sebelumnya, jika tidak ada keluarkan error
+        if (!$book) abort(403, 'Anda tidak memiliki akses ke buku ini');
+
+        // simpan data user, bukum dan request('buku') kedalam data
+        $this->data = [
             'auth' => $user,
             'book' => $book,
+            'req_book' => $book_id,
+        ];
+    }
+
+    public function account(){
+        $this->data = array_merge($this->data, [
+            'title' => $this->data['book']->name,
+            'account' => $this->data['book']->accounts->load('icon', 'records', 'transferToMe', 'transferFromMe')->groupBy('type'),
         ]);
         return view('Account', $this->data);
     }
 
-    public function book(Request $request) {
-        $user = Auth::user(); // Dapatkan pengguna yang sedang login
-        $book = $this->getBook($request);
+    public function book() {
         $this->data = array_merge($this->data, [
-            'title' => $book->name,
-            'auth' => $user,
-            'book' => $book,
-            'categories' => [
-                'income' =>  $book->categories()->filterByType(['type'=>'income'])->get(),
-                'expense' => $book->categories()->filterByType(['type'=>'expense'])->get(),
-            ],
-            'records' => $book->records->groupBy('date')->sortDesc()->map(function($f){return $f->sortByDesc('updated_at');})->reverse(),
+            'title' => $this->data['book']->name,
+            // upadete book
+            'book' => $this->data['auth']->books->where('id', $this->data['book']->id)->load('parties.icon')->first(),
+
+            // Modal Create Record
+            'accounts' => $this->data['book']->accounts()->with('icon', 'records', 'transferFromMe', 'transferToMe')->get(),
+            'categories' => $this->data['book']->categories()->with('icon')->get()->groupBy('type'),
+            
+            // Daftar Pengeluaran
+            'records' => $this->data['book']->records->load(['category.icon', 'party', 'transferTo', 'transferFrom', 'transferTo.icon', 'account'])->groupBy('date')->sortBy('updated_at')->reverse(),
         ]);
+        // dd($this->data);
         return view('dashboard', $this->data);
     }
 

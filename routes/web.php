@@ -1,6 +1,10 @@
 <?php
 
 use App\Models\Log;
+use App\Models\User;
+use App\Models\Account;
+
+
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\SignController;
 use App\Http\Controllers\CreateController;
@@ -27,6 +31,10 @@ Route::post('/create/record', [DashboardController::class, 'createRecord'])->mid
 Route::get('/new/book', [CreateController::class, 'book'])->middleware('auth');
 Route::get('/tes', function() {
     return view('tes', [
-        'log' => Log::all(),
+        'data' => [
+            'log' => Log::all(),
+            'user' => User::all(),
+            'account' => Account::all(),
+        ],
     ]);
-})->middleware('auth');
+});

@@ -19,10 +19,11 @@ class Book extends Model
     protected static function booted(){
         static::created(function ($book) {
             // 2. Membuat Account Default untuk User
-            $book->accounts()->create(['name' => 'Cash','first_nominal' => 10000,'currency' => 'IDR','icon_id' => 13,'type'=>'cash',]);
+            $book->accounts()->create(['name' => 'Cash','first_nominal' => 0,'currency' => 'IDR','icon_id' => 13,'type'=>'cash',]);
+            $book->accounts()->create(['name' => 'Uang Darurat','first_nominal' => 0,'currency' => 'IDR','icon_id' => 13,'type'=>'cash',]);
             $book->accounts()->create(['name' => 'Tabungan','first_nominal' => 0,'currency' => 'IDR','icon_id' => 14,'type'=>'virtual',]);
-            $book->accounts()->create(['name' => 'Hutang','first_nominal' => 0,'currency' => 'IDR','icon_id' => 15,'type'=>'hutang',]);
-            $book->accounts()->create(['name' => 'Piutang','first_nominal' => 0,'currency' => 'IDR','icon_id' => 15,'type'=>'piutang',]);
+            $book->accounts()->create(['name' => 'Hutang','first_nominal' => 0,'currency' => 'IDR','icon_id' => 15,'type'=>'hutang', 'description' => 'Jika dirimu berhutang, lakukan transfer dari account ini ke account lain!, begitu juga sebaliknya jika kamu bayar hutang!']);
+            $book->accounts()->create(['name' => 'Piutang','first_nominal' => 0,'currency' => 'IDR','icon_id' => 15,'type'=>'piutang', 'description' => 'Jika orang berhutang kepada mu, lakukan transfer dari account lain ke account ini!, begitu juga sebaliknya jika orang tersebut bayar hutang!']);
 
             // 3. Membuat Category Default untuk Book (Pengeluaran dan Pemasukan)
             // Kategori Pengeluaran (Expense)
@@ -43,6 +44,23 @@ class Book extends Model
             $book->parties()->create(['name' => 'Bank','icon_id' => 12,]);
         });
     }
+    // Total Nominal
+    // key [date]
+    // public function totalTransactionInDate($date) {
+    //     return $this->records()->wheres(['type'=>'income', 'date'=>$date])->sum('nominal')
+    //     - $this->records()->wheres(['type'=>'expense', 'date'=>$date])->sum('nominal');
+    // }
+    // public function totalTransferInDate($date) {
+    //     return $this->records()->wheres(['type'=>'transfer', 'date'=>$date])->sum('nominal');
+    // }
+    // public function totalAccount(Array $filter) {
+    //     return $this->accounts()->wheres($filter)->sum(function($account){
+    //         return $account->lastNominal();
+    //     });
+    // }
+
+
+    
 
     // RELASI
     public function user() {

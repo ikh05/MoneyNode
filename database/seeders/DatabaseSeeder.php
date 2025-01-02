@@ -20,29 +20,29 @@ class DatabaseSeeder extends Seeder
     {
         $icons = [
             // Buku 1
-            ['name' => 'Book', 'path' => 'book.png', 'isGlobel' => true],
+            ['name' => 'Book', 'path' => 'book.png', 'is_globel' => true],
             
             // Pengeluaran (Expense Categories) 2-6
-            ['name' => 'Food', 'path' => 'food.png', 'isGlobel' => true],
-            ['name' => 'Transportation', 'path' => 'transportation.png', 'isGlobel' => true],
-            ['name' => 'Utilities', 'path' => 'utilities.png', 'isGlobel' => true],
-            ['name' => 'Entertainment', 'path' => 'entertainment.png', 'isGlobel' => true],
-            ['name' => 'Health', 'path' => 'health.png', 'isGlobel' => true],
+            ['name' => 'Food', 'path' => 'food.png', 'is_globel' => true],
+            ['name' => 'Transportation', 'path' => 'transportation.png', 'is_globel' => true],
+            ['name' => 'Utilities', 'path' => 'utilities.png', 'is_globel' => true],
+            ['name' => 'Entertainment', 'path' => 'entertainment.png', 'is_globel' => true],
+            ['name' => 'Health', 'path' => 'health.png', 'is_globel' => true],
 
             // Pemasukan (Income Categories) 7-9
-            ['name' => 'Salary', 'path' => 'salary.png', 'isGlobel' => true],
-            ['name' => 'Investment', 'path' => 'investment.png', 'isGlobel' => true],
-            ['name' => 'Gift', 'path' => 'gift.png', 'isGlobel' => true],
+            ['name' => 'Salary', 'path' => 'salary.png', 'is_globel' => true],
+            ['name' => 'Investment', 'path' => 'investment.png', 'is_globel' => true],
+            ['name' => 'Gift', 'path' => 'gift.png', 'is_globel' => true],
 
             // Pihak yang Terlibat (Parties) 10-12
-            ['name' => 'Vendor', 'path' => 'vendor.png', 'isGlobel' => true],
-            ['name' => 'Customer', 'path' => 'customer.png', 'isGlobel' => true],
-            ['name' => 'Bank', 'path' => 'bank.png', 'isGlobel' => true],
+            ['name' => 'Vendor', 'path' => 'vendor.png', 'is_globel' => true],
+            ['name' => 'Customer', 'path' => 'customer.png', 'is_globel' => true],
+            ['name' => 'Bank', 'path' => 'bank.png', 'is_globel' => true],
 
             // Jenis Akun (Account Types)13 - 15
-            ['name' => 'Cash', 'path' => 'cash.png', 'isGlobel' => true],
-            ['name' => 'Debt', 'path' => 'debt.png', 'isGlobel' => true],
-            ['name' => 'Receivables', 'path' => 'receivables.png', 'isGlobel' => true],
+            ['name' => 'Cash', 'path' => 'cash.png', 'is_globel' => true],
+            ['name' => 'Debt', 'path' => 'debt.png', 'is_globel' => true],
+            ['name' => 'Receivables', 'path' => 'receivables.png', 'is_globel' => true],
 
         ];
 
@@ -55,7 +55,7 @@ class DatabaseSeeder extends Seeder
         $user = User::create([
             'username' => 'Ikhsan',
             'name' => 'ikhsan',
-            'isAdmin' => true,
+            'is_admin' => true,
             'password' => password_hash($password, PASSWORD_BCRYPT),
         ]);
 

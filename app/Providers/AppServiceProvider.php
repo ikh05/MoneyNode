@@ -7,8 +7,11 @@ use Illuminate\Support\Str;
 
 use Illuminate\Support\Number;
 use App\Models\TransactionRecord;
+use Collator;
+use Illuminate\Database\Eloquent\Collection as EloquentCollection;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Support\Collection;
+use PHPUnit\Runner\DeprecationCollector\Collector;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -49,22 +52,27 @@ class AppServiceProvider extends ServiceProvider
             if($nominal >= 0) return 'Rp'.number_format($nominal, 0, ',', '.').',-';
             else if($nominal < 0) return ($negatif ? '-' : '').'Rp'.number_format($nominal*-1, 0, ',', '.').',-'; 
         });
-        
-        Collection::macro('sumIf', function(String $s, String $fk, String $fv){
-            return $this->sum(function($item) use ($fk, $fv, $s){
-                return $fv === $item[$fk] ? $item[$s] : 0;
+        Collection::macro('totalByType', function($type){
+            return $this->sum(function($r) use ($type){
+                return ($r['type'] === $type ? $r['nominal'] : 0);
             });
         });
-
-        Collection::macro('sumIfs', function(String $s, Array $filter){
-            return $this->sum(function($item) use ($s, $filter){
-                // harus mengeluarkan nilai yang di jumlahkan
-                // cek item itu berapa banyak memenuhi kriteria
-                    // setiap filter kita bandingkan dengan setiap item
-                    // jika sama dengan banyak filter, maka di jumlahkan
-                return (Collection::make($filter)->sum(function($fv, $fk){
-                    dd($fk." => ".$fv);
-                }) === count($filter)) ? $item[$s] : 0; 
+        Collection::macro('totalByIncomeExpense', function(){
+            return $this->totalByType('income') - $this->totalByType('expense');
+        });
+        Collection::macro('totalNominalInAccount', function(array $transfer){
+            return $this->totalByType('income') - $this->totalByType('expense') + $transfer['toMe']->totalByType('transfer') - $transfer['fromMe']->totalByType('transfer');
+        });
+        Collection::macro('totalNominalGroupAccounts', function(){
+            return $this->sum(function($account){
+                return $account->records->totalNominalInAccount(['toMe' => $account->transferToMe, 'fromMe'=>$account->transferFromMe]);
+            });
+        });
+        Collection::macro('totalAsset', function(){
+            // $this = semua account dari buku (sudah dipecah berdasarkan type account)
+            // kita harus jumlahkan pecah lagi menjadi asset atau tidak
+            return $this->sum(function($account_type){
+                return $account_type->groupBy('isAsset')[1]->totalNominalGroupAccounts();
             });
         });
     }

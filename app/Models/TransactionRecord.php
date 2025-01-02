@@ -9,6 +9,8 @@ use App\Models\TransactionCategory;
 use Illuminate\Database\Eloquent\Model;
 use Psy\Readline\Transient;
 
+use function PHPUnit\Framework\isArray;
+
 class TransactionRecord extends Model{
 
     protected $guarded = ['id'];
@@ -22,9 +24,9 @@ class TransactionRecord extends Model{
 
         // type
         $query->when(isset($where['type']) ? $where['type'] : false, function($query, $type){
+            if(is_array($type)) return $this->wheres($type);
             return $query->where('type', $type);
         });
-        
     }
 
     // relasi

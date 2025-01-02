@@ -6,6 +6,8 @@ use App\Models\Book;
 use App\Models\Icon;
 use App\Models\TransactionRecord;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Collection;
+use PhpParser\ErrorHandler\Collecting;
 
 class TransactionCategory extends Model
 {
@@ -25,8 +27,12 @@ class TransactionCategory extends Model
 
 
     // SCOPE
-    public function scopeFilterByType($query, $type) {
-        return $query->where('type', $type);
+    public function scopeWheres($query, $where) {
+        $query->when(isset($where['type']) ? $where['type'] : false, function($query, $type){
+            // if(is_array($type)) dd($query->whre('type', implode(' OR ', $type))); 
+            // return $query->where('type', implode(' OR ', $type));
+            return $query->where('type', $type);
+        });
     }
 
 }
