@@ -68,11 +68,12 @@ class AppServiceProvider extends ServiceProvider
                 return $account->records->totalNominalInAccount(['toMe' => $account->transferToMe, 'fromMe'=>$account->transferFromMe]);
             });
         });
-        Collection::macro('totalAsset', function(){
+        Collection::macro('totalAssetBersih', function(){
             // $this = semua account dari buku (sudah dipecah berdasarkan type account)
             // kita harus jumlahkan pecah lagi menjadi asset atau tidak
             return $this->sum(function($account_type){
-                return $account_type->groupBy('isAsset')[1]->totalNominalGroupAccounts();
+                // dd($account_type->groupBy('is_asset')->sort()->last());
+                return $account_type->groupBy('is_asset')->sort()->last()->totalNominalGroupAccounts();
             });
         });
     }
