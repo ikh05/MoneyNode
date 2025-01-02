@@ -3,7 +3,7 @@
         <div class="card-header position-relative py-3">
             {{ $slot }}
         </div>
-        <div class="card-body d-flex px-4 py-3 gap-2 flex-column">
+        <div class="card-body d-flex p-3 gap-1 flex-column">
             {{-- Detail Pengeluaran --}}
             <x-dynamic-component :component="$component" class="mt-4" :data="$data->first()"/>
             @foreach ($data->skip(1) as $d)

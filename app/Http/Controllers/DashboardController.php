@@ -32,7 +32,6 @@ class DashboardController extends Controller{
         $this->data = [
             'auth' => $user,
             'book' => $book,
-            'req_book' => $book_id,
         ];
     }
 
@@ -41,6 +40,7 @@ class DashboardController extends Controller{
             'title' => $this->data['book']->name,
             'account' => $this->data['book']->accounts->load('icon', 'records', 'transferToMe', 'transferFromMe')->groupBy('type'),
         ]);
+        // dd($this->data);
         return view('Account', $this->data);
     }
 

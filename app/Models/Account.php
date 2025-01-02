@@ -14,8 +14,9 @@ class Account extends Model
     protected static function booted(){
         static::creating(function ($asset) {
             // $book->accounts()->create(['name' => 'Cash','first_nominal' => 0,'currency' => 'IDR','icon_id' => 13,'type'=>'cash',]);
-            // jika type hutang, maka paksa jangan masukkan ke asset (is_asset = false);
-            if($asset->type === 'hutang') $asset->is_asset = false;
+            // jika type hutang, maka paksa jangan masukkan ke asset (is_asset = false); 
+            // DIPERTIMBANGKAN
+            // if($asset->type === 'hutang') $asset->is_asset = false;
         });
 
         static::created(function ($asset){
@@ -31,7 +32,6 @@ class Account extends Model
         $query->when(isset($where['isAsset']) ? $where['isAsset'] : false, function($query, $isAsset){
             return $query->where('isAsset', $isAsset);
         });
-
         // type
         $query->when(isset($where['type']) ? $where['type'] : false, function($query, $type){
             return $query->where('type', $type);
