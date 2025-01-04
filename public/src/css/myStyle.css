@@ -84,3 +84,27 @@
 .scrollbar-hidden::-webkit-scrollbar-thumb:hover {
     background:  #ffffff00;
 }
+
+
+/* Action Hover */
+.action-hover{
+    translate: filter 0.3s ease;
+    background-color: inherit;
+}
+.action-hover:hover{
+    background-color: aquamarine;
+    filter: brightness(90%);
+    cursor: pointer;
+    color: black;
+}
+
+/* Nav Active */
+#nav-md .nav .active{
+    position: relative;
+    top: -.5rem;
+}
+
+/* Create Record */
+.item-calculator{
+    height: 3.5rem;
+}

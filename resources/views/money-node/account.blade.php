@@ -3,17 +3,19 @@
 
 @section('content')
 <div class="row bg-danger-subtle position-relative px-1">
-    <div class="row py-2 px-5 mb-3 mt-2 text-center w-100">
+    <div class="row py-2 px-5 mx-0 mb-3 mt-2 text-center w-100">
         <div class="">
-            <p class="mb-0 fs-4">Asset Bersih:</p>
-            <p class="fs-5"> {{ Str::toRupiah($account->totalAssetBersih()) }}</p>
+            <p class="mb-0 fs-4 fw-bold">Asset Bersih:</p>
+            <p class="fs-5 fw-light"> {{ Str::toRupiah($account->totalAssetBersih()) }}</p>
         </div>
-        <div class="row px-0" style="width: 100%">
-            <div class="col">
-                <p class="mb-0">Asset: {{ Str::toRupiah($account->totalAssetBersih() + $account['hutang']->totalNominalGroupAccounts()) }}</p>
+        <div class="d-flex px-0 flex-fill" style="width: 100%">
+            <div class="w-50">
+                <p class="mb-0 fw-bold">Asset:</p>
+                <p class="mb-0 fw-light">{{ Str::toRupiah($account->totalAssetBersih() + $account['hutang']->totalNominalGroupAccounts()) }}</p>
             </div>
-            <div class="col">
-                <p class="mb-0">Hutang: {{ Str::toRupiah($account['hutang']->totalNominalGroupAccounts()) }}</p>
+            <div class="w-50">
+                <p class="mb-0 fw-bold">Hutang:</p>
+                <p class="mb-0 fw-light">{{ Str::toRupiah($account['hutang']->totalNominalGroupAccounts()) }}</p>
             </div>
         </div>
     </div>

@@ -4,7 +4,7 @@ namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
 use App\Models\Log;
-use App\Models\Book;
+use App\Models\MoneyNode\Book;
 use App\Models\Icon;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -54,7 +54,7 @@ class User extends Authenticatable
                 return  0; // Jika user sudah memiliki buku, akun, kategori, dan party, abaikan fungsi ini
             }
             // 1. Membuat Book Default untuk User
-            $user->books()->create(['name' => 'Default Book','description' => 'Buku pertama untuk pencatatan','icon_id' => 1,]);
+            $user->books()->create(['name' => 'Default Book','description' => 'Buku pertama untuk pencatatan']);
             $user->books()->create(['name' => 'Buku Kedua','description' => 'Buku pertama untuk pencatatan','icon_id' => 1,]);
             $user->logs()->create(['action' => 'create','model' => 'user','data' => json_encode(["after" => json_encode($user), ]),'description' => 'Create user '.$user->name.' at '.date(today()),]);
         });

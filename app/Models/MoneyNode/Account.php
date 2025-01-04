@@ -1,14 +1,17 @@
 <?php
 
-namespace App\Models;
+namespace App\Models\MoneyNode;
 
-use App\Models\Book;
+use App\Models\MoneyNode\Book;
 use App\Models\Icon;
-use App\Models\TransactionRecord;
+use App\Models\MoneyNode\TransactionRecord;
 use Illuminate\Database\Eloquent\Model;
 
 class Account extends Model
 {
+    // Tentukan nama tabel dengan prefix "mn"
+    protected $table = 'mn_accounts';
+
     protected $guarded = ['id'];
     
     protected static function booted(){

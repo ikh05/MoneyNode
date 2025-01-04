@@ -1,13 +1,13 @@
 <?php
 
-namespace App\Models;
+namespace App\Models\MoneyNode;
 
 use App\Models\Icon;
 use App\Models\User;
-use App\Models\Account;
-use App\Models\TransactionParty;
-use App\Models\TransactionRecord;
-use App\Models\TransactionCategory;
+use App\Models\MoneyNode\Account;
+use App\Models\MoneyNode\TransactionParty;
+use App\Models\MoneyNode\TransactionRecord;
+use App\Models\MoneyNode\TransactionCategory;
 use Illuminate\Database\Eloquent\Model;
 
 use function PHPUnit\Framework\isNumeric;
@@ -16,7 +16,14 @@ class Book extends Model
 {
     protected $guarded = ['id'];
 
+    // Tentukan nama tabel dengan prefix "mn"
+    protected $table = 'mn_books';
+    
     protected static function booted(){
+
+        static::creating(function ($book){
+            if($book->icon_id === null) $book->icon_id = 1;
+        });
         static::created(function ($book) {
             // 2. Membuat Account Default untuk User
             $book->accounts()->create(['name' => 'Cash','first_nominal' => 0,'currency' => 'IDR','icon_id' => 13,'type'=>'cash',]);

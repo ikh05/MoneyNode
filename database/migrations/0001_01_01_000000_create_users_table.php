@@ -15,7 +15,9 @@ return new class extends Migration
             $table->id();
             $table->string('name');
             $table->string('username')->unique();
-            $table->string('email')->unique()->default('');
+            $table->string('no_wa')->unique()->nullable();
+            $table->timestamp('no_wa_verified_at')->nullable();
+            $table->string('email')->unique()->nullable();
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
             $table->boolean('is_admin')->default(False);
@@ -37,6 +39,26 @@ return new class extends Migration
             $table->longText('payload');
             $table->integer('last_activity')->index();
         });
+
+        // kategori: accounts, books, income, pengeluaran parties
+        Schema::create('icons', function (Blueprint $table) {
+            $table->id();
+            $table->string('name'); // Nama ikon
+            $table->foreignId('uploader_id')->nullable()->constrained('users'); // Relasi ke pengguna sebagai orang yang mengapload
+            $table->string('path'); // Lokasi file ikon
+            $table->boolean('is_globel')->default(FALSE); // apakah bisa dilihat orang lain
+            $table->json('type')->nullable();
+            $table->timestamps();
+        });
+        Schema::create('logs', function (Blueprint $table) {
+            $table->id();
+            $table->foreignId('user_id')->nullable()->constrained('users'); // User yang melakukan aktivitas
+            $table->enum('action', ['create', 'update', 'delete']); // Aksi (contoh: "create", "update", "delete")
+            $table->string('model'); // Model yang diubah (contoh: "TransactionRecord")
+            $table->json('data')->nullable(); // Data lama atau baru
+            $table->string('description')->nullable()->default(null); // description yang akan di tampilkan
+            $table->timestamps();
+        });
     }
 
     /**
@@ -47,5 +69,7 @@ return new class extends Migration
         Schema::dropIfExists('users');
         Schema::dropIfExists('password_reset_tokens');
         Schema::dropIfExists('sessions');
+        Schema::dropIfExists('icons');
+        Schema::dropIfExists('logs');
     }
 };

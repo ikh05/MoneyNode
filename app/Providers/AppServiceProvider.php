@@ -5,13 +5,9 @@ namespace App\Providers;
 use DateTime;
 use Illuminate\Support\Str;
 
-use Illuminate\Support\Number;
-use App\Models\TransactionRecord;
-use Collator;
-use Illuminate\Database\Eloquent\Collection as EloquentCollection;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Support\Collection;
-use PHPUnit\Runner\DeprecationCollector\Collector;
+
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -28,14 +24,14 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-        Str::macro('dateForID', function (String $inputDate, String $format = 'l, d F Y') {
+        Str::macro('dateForID', function (String $inputDate, String $format) {
             $date = DateTime::createFromFormat('Y-m-d', $inputDate);
             if($date){
                 // Format output:
                 $formattedDate = $date->format($format);
                 $translatedDate = str_replace(
-                    ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'],
-                    ['Senin', 'Selasa', 'Rabu', 'Kamis', 'Jumat', 'Sabtu', 'Minggu'],
+                    ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'],
+                    ['Senin', 'Selasa', 'Rabu', 'Kamis', 'Jumat', 'Sabtu', 'Minggu', 'Sen', 'Sel', 'Rab', 'Kam', 'Jum', 'Sab', 'Min'],
                     $formattedDate
                 );
                 $translatedDate = str_replace(
@@ -52,11 +48,19 @@ class AppServiceProvider extends ServiceProvider
             if($nominal >= 0) return 'Rp'.number_format($nominal, 0, ',', '.').',-';
             else if($nominal < 0) return ($negatif ? '-' : '').'Rp'.number_format($nominal*-1, 0, ',', '.').',-'; 
         });
-        Collection::macro('totalByType', function($type){
-            return $this->sum(function($r) use ($type){
-                return ($r['type'] === $type ? $r['nominal'] : 0);
+        Collection::macro('totalByType', function(string $type, string $sum = 'nominal'){
+            return $this->sum(function($r) use ($type, $sum){
+                switch (get_class($r)) {
+                    case 'Illuminate\Support\Collection':
+                        return $r->totalByType($type);
+                    default:
+                        return ($r->$sum !== null ? ($r['type'] === $type ? $r->$sum : 0) : 0);
+                }
             });
         });
+
+
+        // MoneyNode
         Collection::macro('totalByIncomeExpense', function(){
             return $this->totalByType('income') - $this->totalByType('expense');
         });

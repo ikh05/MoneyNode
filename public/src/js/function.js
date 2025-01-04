@@ -1,4 +1,4 @@
-console.log('file function.js sudah load');
+console.log('file function.js sudah load 1.3');
 function toggleClass(element, nameClass){
     stringToDOM(element).classList.toggle(nameClass);
 }
@@ -30,8 +30,16 @@ function stringToDOM(element){
 }
 
 let ret = '';
-// Fungsi Umum
+// Fungsi yang dijalankan setelah resize
+window.addEventListener('resize', function(){
+    // cut Width
+    cutWidth();
+});
+// Fungsi yang dijalankan setelah di LOAD
 document.addEventListener('DOMContentLoaded', function(){
+    // cut Width
+    cutWidth();
+    
     // date
     const date = document.querySelectorAll('[label=date]');
     [...date].forEach(date => {
@@ -101,8 +109,24 @@ function modalClear(element){
     stringToDOM(element);
 }
 function inputNominal(input, query=''){
+    console.log(input);
     document.querySelector('label[for='+input.id+'] '+query).innerHTML = intFormatID(input.value, 'Nominal');
-    document.querySelector('label[for='+input.id+'] .mataUang').classList.add('d-none');
     if(input.value > 0) document.querySelector('label[for='+input.id+'] .mataUang').classList.remove('d-none');
+    else document.querySelector('label[for='+input.id+'] .mataUang').classList.add('d-none');
+}
+function cutWidth(){
+    let all_cut_width = document.querySelectorAll('[name-cut-width]');
+    if(all_cut_width.length){
+        [...all_cut_width].forEach(cut => {
+            let parent = document.querySelector(cut.getAttribute('parent-cut-width'));
+            let width_parent = parent.offsetWidth;
+            console.log('sebelum: '+width_parent);
+            Array.from(parent.querySelectorAll('.cut-width-'+cut.getAttribute('name-cut-width')))
+              .forEach(c => {
+                width_parent -= c.offsetWidth;
+              });
+            cut.style.width = width_parent+'px';
+        })
+    }
 }
 

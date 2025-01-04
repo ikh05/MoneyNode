@@ -2,11 +2,11 @@
 
 namespace App\Models;
 
-use App\Models\Book;
+use App\Models\MoneyNode\Book;
 use App\Models\User;
-use App\Models\Account;
-use App\Models\TransactionParty;
-use App\Models\TransactionCategory;
+use App\Models\MoneyNode\Account;
+use App\Models\MoneyNode\TransactionParty;
+use App\Models\MoneyNode\TransactionCategory;
 use Illuminate\Database\Eloquent\Model;
 
 class Icon extends Model

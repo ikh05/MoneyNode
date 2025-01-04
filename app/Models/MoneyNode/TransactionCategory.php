@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Models;
+namespace App\Models\MoneyNode;
 
-use App\Models\Book;
+use App\Models\MoneyNode\Book;
 use App\Models\Icon;
-use App\Models\TransactionRecord;
+use App\Models\MoneyNode\TransactionRecord;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Collection;
 use PhpParser\ErrorHandler\Collecting;
@@ -12,6 +12,9 @@ use PhpParser\ErrorHandler\Collecting;
 class TransactionCategory extends Model
 {
     protected $guarded = ['id'];
+
+    // Tentukan nama tabel dengan prefix "mn"
+    protected $table = 'mn_transaction_categories';
 
     public function icon() {
         return $this->belongsTo(Icon::class, 'icon_id');

@@ -1,8 +1,8 @@
 @extends('layout.navbar')
 
 @section('content')
-<div class="row bg-danger-subtle py-2 px-4 position-relative">
-    <div class="d-flex gap-2">
+{{-- <div class="row bg-danger-subtle py-2 px-4 position-relative"> --}}
+    {{-- <div class="d-flex gap-2">
         <a class="text-center link-light link-underline link-underline-opacity-0 btn btn-outline-danger {{ $book->id ===  $auth->books[0]->id ? 'active' : ''}}" href="/">
             <img src="/src/img/icon/{{ $auth->books[0]->icon->path }}" alt="icon book">
             <p>{{ $auth->books[0]->name }}</p>
@@ -14,18 +14,19 @@
             </a>
             @endforeach
         </div>
-    </div>
+    </div> --}}
     <div class="row mb-3">
         {{-- rekap dari buku ini --}}
     </div>
     {{-- @dd($records) --}}
     <div class="container">
+        {{-- @dd($records) --}}
 @foreach ($records as $date => $item)
-    <x-card.index component="card.record" :data="$item" >
-        <p class="mb-0 fw-bold">{{ Str::dateForID($date, 'l, d/m/Y') }}</p>
+    <x-card component="card.record" :data="$item" class_card="border-2 border-{{ $item->totalByIncomeExpense() > 0 ? 'success' : 'danger' }}-subtle">
+        <p class="mb-0 fw-bold">{{ Str::dateForID($date, 'D, d M Y') }}</p>
         <div class="text-end small fst-italic position-absolute end-0 me-3 top-50 translate-middle-y">
-            <p class="fw-bold text-{{ $item->totalByIncomeExpense() > 0 ? 'success' : 'danger' }} {{ $item->totalByIncomeExpense() ? '' : 'd-none' }} mb-0 ">{{ $item->totalByIncomeExpense() > 0 ? 'Pemasukkan' : 'Pengeluaran' }}: {{ Str::toRupiah( $item->totalByIncomeExpense(), false) }}</p>
-            <p class="fw-bold text-secondary {{ $item->totalByType('transfer') ? '' : 'd-none' }} mb-0 ">Transfer: {{ Str::toRupiah( $item->totalByType('transfer') ) }}</p>
+            <p class="fw-bold text-{{ $item->totalByIncomeExpense() > 0 ? 'success' : 'danger' }} {{ $item->totalByIncomeExpense() ? '' : 'd-none' }} mb-0 ">Pem/Peng : {{ Str::toRupiah( $item->totalByIncomeExpense(), false) }}</p>
+            <p class="fw-bold text-secondary {{ $item->totalByType('transfer') ? '' : 'd-none' }} mb-0 ">Transfer {{ Str::toRupiah($item->totalByType('transfer')) }}</p>
         </div>
     </x-card>
 @endforeach

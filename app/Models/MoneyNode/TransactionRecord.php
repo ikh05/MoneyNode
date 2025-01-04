@@ -1,19 +1,20 @@
 <?php
 
-namespace App\Models;
+namespace App\Models\MoneyNode;
 
-use App\Models\Book;
-use App\Models\Account;
-use App\Models\TransactionParty;
-use App\Models\TransactionCategory;
+use App\Models\MoneyNode\Book;
+use App\Models\MoneyNode\Account;
+use App\Models\MoneyNode\TransactionParty;
+use App\Models\MoneyNode\TransactionCategory;
 use Illuminate\Database\Eloquent\Model;
-use Psy\Readline\Transient;
 
-use function PHPUnit\Framework\isArray;
 
 class TransactionRecord extends Model{
 
     protected $guarded = ['id'];
+
+    // Tentukan nama tabel dengan prefix "mn"
+    protected $table = 'mn_transaction_records';
 
     // scope
     public function scopeWheres($query, Array $where){
