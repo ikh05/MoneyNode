@@ -3,17 +3,24 @@
 namespace App\Http\Controllers;
 
 use App\Models\Log;
-use App\Models\Book;
-use App\Models\Account;
-use Illuminate\Http\Request;
-use Illuminate\Validation\Rule;
-use App\Models\TransactionParty;
-use App\Models\TransactionRecord;
-use App\Models\TransactionCategory;
+use App\Models\User;
+use App\Models\MoneyNode\Account;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
-use PhpParser\ErrorHandler\Collecting;
+use App\Models\MoneyNode\TransactionRecord;
 
 class DashboardController extends Controller{
-    
+    public function index(){
+        return view('dashboard')->with('user', Auth::user());
+    }
+    public function tes() {
+        return view('tes', [
+            'data' => [
+                'log' => Log::all(),
+                'user' => User::all(),
+                'account' => Account::all(),
+                'record' => TransactionRecord::all(),
+            ],
+        ]);
+    }
 }

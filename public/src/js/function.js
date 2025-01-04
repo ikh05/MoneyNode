@@ -1,4 +1,4 @@
-console.log('file function.js sudah load 1.3');
+console.log('file function.js sudah load 1.5');
 function toggleClass(element, nameClass){
     stringToDOM(element).classList.toggle(nameClass);
 }
@@ -36,7 +36,38 @@ window.addEventListener('resize', function(){
     cutWidth();
 });
 // Fungsi yang dijalankan setelah di LOAD
-document.addEventListener('DOMContentLoaded', function(){
+document.addEventListener('DOMContentLoaded', function(e){
+    // popover
+    // Inisialisasi popover untuk setiap elemen dengan data-bs-toggle="popover"
+    const popoverTriggerList = document.querySelectorAll('[data-bs-toggle="popover"]');
+    const popoverList = [];
+
+    popoverTriggerList.forEach(popoverTriggerEl => {
+        // Ambil elemen konten dari atribut 'content-popover'
+        const contentElement = document.querySelector(popoverTriggerEl.getAttribute('content-popover'));
+        const popoverInstance = contentElement === null
+            ? new bootstrap.Popover(popoverTriggerEl)    
+            : new bootstrap.Popover(popoverTriggerEl, {
+                customClass: 'popover-user',
+                content: contentElement, // Set konten dari elemen yang ditargetkan
+                html: true, // Aktifkan mode HTML
+                sanitize: true // Nonaktifkan sanitasi jika menggunakan konten HTML
+            });
+
+        // Simpan instance popover untuk digunakan kemudian
+        popoverList.push(popoverInstance);
+    });
+
+    // Fungsi yang dijalankan jika ada klik
+    document.addEventListener('click', function (e) {
+        if (!e.target.closest('[data-bs-toggle="popover"]')) {
+            // Tutup semua popover yang sedang terbuka
+            popoverList.forEach(popoverInstance => {
+                popoverInstance.hide(); // Menutup popover menggunakan instance
+            });
+        }
+    });
+    
     // cut Width
     cutWidth();
     
@@ -109,7 +140,6 @@ function modalClear(element){
     stringToDOM(element);
 }
 function inputNominal(input, query=''){
-    console.log(input);
     document.querySelector('label[for='+input.id+'] '+query).innerHTML = intFormatID(input.value, 'Nominal');
     if(input.value > 0) document.querySelector('label[for='+input.id+'] .mataUang').classList.remove('d-none');
     else document.querySelector('label[for='+input.id+'] .mataUang').classList.add('d-none');
@@ -120,7 +150,6 @@ function cutWidth(){
         [...all_cut_width].forEach(cut => {
             let parent = document.querySelector(cut.getAttribute('parent-cut-width'));
             let width_parent = parent.offsetWidth;
-            console.log('sebelum: '+width_parent);
             Array.from(parent.querySelectorAll('.cut-width-'+cut.getAttribute('name-cut-width')))
               .forEach(c => {
                 width_parent -= c.offsetWidth;
@@ -129,4 +158,3 @@ function cutWidth(){
         })
     }
 }
-

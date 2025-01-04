@@ -108,3 +108,11 @@
 .item-calculator{
     height: 3.5rem;
 }
+
+/* PopOver User */
+.popover-user{
+    /* overflow: hidden; */
+}
+.popover-user .popover-body{
+    padding: 0;
+}
