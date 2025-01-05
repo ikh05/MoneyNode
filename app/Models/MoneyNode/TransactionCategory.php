@@ -15,7 +15,21 @@ class TransactionCategory extends Model
 
     // Tentukan nama tabel dengan prefix "mn"
     protected $table = 'mn_transaction_categories';
+    
+    public static function booted(){
+        static::created(function ($category){
+            $category->book->user->logs()->create([
+                'model' => 'MoneyNode(category)',
+                'action' => 'create',
+                'data' => [
+                    'after' => $category->toArray(),
+                ],
+            ]);
+        });
+    }
 
+    
+    // RELASI
     public function icon() {
         return $this->belongsTo(Icon::class, 'icon_id');
     }

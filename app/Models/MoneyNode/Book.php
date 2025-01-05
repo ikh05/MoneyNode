@@ -10,8 +10,6 @@ use App\Models\MoneyNode\TransactionRecord;
 use App\Models\MoneyNode\TransactionCategory;
 use Illuminate\Database\Eloquent\Model;
 
-use function PHPUnit\Framework\isNumeric;
-
 class Book extends Model
 {
     protected $guarded = ['id'];
@@ -25,6 +23,7 @@ class Book extends Model
             if($book->icon_id === null) $book->icon_id = 1;
         });
         static::created(function ($book) {
+            $book->user->toggleLog();
             // 2. Membuat Account Default untuk User
             $book->accounts()->create(['name' => 'Cash','first_nominal' => 0,'currency' => 'IDR','icon_id' => 13,'type'=>'cash',]);
             $book->accounts()->create(['name' => 'Uang Darurat','first_nominal' => 0,'currency' => 'IDR','icon_id' => 13,'type'=>'cash',]);
@@ -49,6 +48,16 @@ class Book extends Model
             $book->parties()->create(['name' => 'Vendor','icon_id' => 10,]);
             $book->parties()->create(['name' => 'Customer','icon_id' => 11,]);
             $book->parties()->create(['name' => 'Bank','icon_id' => 12,]);
+
+            
+            $book->user->toggleLog();
+            $book->user->logs()->create([
+                'model' => 'MoneyNode(book)',
+                'action' => 'create',
+                'data' => [
+                    'after' => $book->toArray(),
+                ],
+            ]);
         });
     }
     // Total Nominal

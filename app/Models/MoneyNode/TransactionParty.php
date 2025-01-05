@@ -14,6 +14,20 @@ class TransactionParty extends Model
     // Tentukan nama tabel dengan prefix "mn"
     protected $table = 'mn_transaction_parties';
 
+    public static function booted(){
+        static::created(function ($party){
+            $party->book->user->logs()->create([
+                'model' => 'MoneyNode(party)',
+                'action' => 'create',
+                'data' => [
+                    'after' => $party->toArray(),
+                ],
+            ]);
+        });
+    }
+
+
+    // Relasi
     public function icon() {
         return $this->belongsTo(Icon::class, 'icon_id');
     }

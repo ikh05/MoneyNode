@@ -22,10 +22,14 @@ class Account extends Model
             // if($asset->type === 'hutang') $asset->is_asset = false;
         });
 
-        static::created(function ($asset){
-            // membuat log
-            $book = $asset->book;
-            $user = $book->user;
+        static::created(function ($account){
+            $account->book->user->logs()->create([
+                'model' => 'MoneyNode(account)',
+                'action' => 'create',
+                'data' => [
+                    'after' => $account->toArray(),
+                ],
+            ]);
         });
     }
 

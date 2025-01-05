@@ -1,7 +1,7 @@
 <div class="modal fade" id="add-transaction-record" tabindex="-1" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
-            <form action="/mn/create/record" method="POST">
+            <form action="/MoneyNode/create/record" method="POST">
                 @csrf
                 <input type="hidden" name="book_id" value="{{ $book->id }}">
                 <div class="modal-header" style="height: 5rem;">

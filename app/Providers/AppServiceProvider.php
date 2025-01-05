@@ -24,11 +24,11 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-        Str::macro('dateForID', function (String $inputDate, String $format) {
-            $date = DateTime::createFromFormat('Y-m-d', $inputDate);
+        Str::macro('dateForID', function (String $inputDate, String $to_format, String $from_format = 'Y-m-d') {
+            $date = DateTime::createFromFormat($from_format, $inputDate);
             if($date){
                 // Format output:
-                $formattedDate = $date->format($format);
+                $formattedDate = $date->format($to_format);
                 $translatedDate = str_replace(
                     ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'],
                     ['Senin', 'Selasa', 'Rabu', 'Kamis', 'Jumat', 'Sabtu', 'Minggu', 'Sen', 'Sel', 'Rab', 'Kam', 'Jum', 'Sab', 'Min'],

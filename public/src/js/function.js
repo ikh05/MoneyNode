@@ -145,6 +145,13 @@ function inputNominal(input, query=''){
     else document.querySelector('label[for='+input.id+'] .mataUang').classList.add('d-none');
 }
 function cutWidth(){
+    /*
+    # element yang mau kita potong harus memiliki dua attribut
+       - name-cut-width   >>merujuk>>   class sebagai pengurang
+       - parent-cut-width   >>merujuk>>   query-parent
+    # element pengurang harus memiliki 1 class statac (disesuaikan)
+       - class sebagai pengurang harus memiliki '.cut-width-' + name-cut-width dari element yang akan di potong
+     */
     let all_cut_width = document.querySelectorAll('[name-cut-width]');
     if(all_cut_width.length){
         [...all_cut_width].forEach(cut => {

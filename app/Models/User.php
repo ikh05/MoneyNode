@@ -51,18 +51,29 @@ class User extends Authenticatable
 
     // Fungsi untuk menambahkan data default ketika user pertama kali dibuat
     protected static function booted(){
-        static::created(function($user) {
-            // Memastikan fungsi hanya dijalankan jika pengguna belum memiliki data default
-            if ($user->mn_books()->exists()) {
-                return  0; // Jika user sudah memiliki buku, akun, kategori, dan party, abaikan fungsi ini
-            }
-            // 1. Membuat Book Default untuk User
-            $user->mn_books()->create(['name' => 'Default Book','description' => 'Buku pertama untuk pencatatan']);
-            $user->mn_books()->create(['name' => 'Buku Kedua','description' => 'Buku pertama untuk pencatatan','icon_id' => 1,]);
-            $user->logs()->create(['action' => 'create','model' => 'user','data' => json_encode(["after" => json_encode($user), ]),'description' => 'Create user '.$user->name.' at '.date(today()),]);
+        static::created(function($user) {            
+            $user->logs()->create([
+                'action' => 'create',
+                'model' => 'user',
+                'data' => [
+                    "after" => $user->toArray(),
+                ]
+            ]);
         });
     }
-    
+
+    // Log
+    public function toggleLog() {
+        // Pastikan bahwa kolom skip_log dapat diubah
+        if ($this->skip_log !== null) {
+            $this->skip_log = !$this->skip_log;
+            $this->save();  // Simpan perubahan ke database
+        } else {
+            // Menangani kasus ketika kolom skip_log tidak ada atau null
+            throw new \Exception("Kolom users.skip_log tidak ditemukan atau tidak valid.");
+        }
+    } 
+
     // RELASI
     public function uploader() {
         return $this->hasMany(Icon::class, 'uploader_id');

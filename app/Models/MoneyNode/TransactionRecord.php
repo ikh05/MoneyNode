@@ -15,6 +15,18 @@ class TransactionRecord extends Model{
 
     // Tentukan nama tabel dengan prefix "mn"
     protected $table = 'mn_transaction_records';
+    
+    public static function booted(){
+        static::created(function ($transaction){
+            $transaction->book->user->logs()->create([
+                'model' => 'MoneyNode(transaction)',
+                'action' => 'create',
+                'data' => [
+                    'after' => $transaction->toArray(),
+                ],
+            ]);
+        });
+    }
 
     // scope
     public function scopeWheres($query, Array $where){

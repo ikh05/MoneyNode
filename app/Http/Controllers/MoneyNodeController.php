@@ -3,14 +3,18 @@
 namespace App\Http\Controllers;
 
 use App\Models\Log;
-use Illuminate\Http\Request;
+use App\Models\User;
 use App\Models\MoneyNode\Book;
 use App\Models\MoneyNode\Account;
-use App\Http\Controllers\Controller;
-use Illuminate\Support\Facades\Auth;
 use App\Models\MoneyNode\TransactionParty;
 use App\Models\MoneyNode\TransactionRecord;
 use App\Models\MoneyNode\TransactionCategory;
+
+
+use Illuminate\Http\Request;
+use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Auth;
+
 
 class MoneyNodeController extends Controller
 {
@@ -19,6 +23,11 @@ class MoneyNodeController extends Controller
         $user = Auth::user();
         $book_id = request('book');
         $load_book = ['icon'];
+
+        if (!$user->mn_books()->exists()) {
+            // 1. Membuat Book Default untuk User
+            $user->mn_books()->create(['name' => 'Default Book','description' => 'Buku pertama']);
+        }
 
         // Jika tidak ada ID buku diberikan, ambil buku pertama milik user, sebaliknya ambil buku yang dengan ID yang diberikan
         if(!$book_id) $book = $user->mn_books->load($load_book)->first();
