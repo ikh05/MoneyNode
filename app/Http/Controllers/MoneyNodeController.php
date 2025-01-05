@@ -21,11 +21,11 @@ class MoneyNodeController extends Controller
         $load_book = ['icon'];
 
         // Jika tidak ada ID buku diberikan, ambil buku pertama milik user, sebaliknya ambil buku yang dengan ID yang diberikan
-        if(!$book_id) $book = $user->books->load($load_book)->first();
-        else $book = $user->books->where('id', $book_id)->load($load_book)->first(); // ambil buku dengan model user (memastikan buku milik user)
+        if(!$book_id) $book = $user->mn_books->load($load_book)->first();
+        else $book = $user->mn_books->where('id', $book_id)->load($load_book)->first(); // ambil buku dengan model user (memastikan buku milik user)
         
         // mengecek apakah ada buku yang diambil dari proses sebelumnya, jika tidak ada keluarkan error
-        if (!$book) abort(403, 'Anda tidak memiliki akses ke buku ini');
+        if (!$book) abort(403, 'Buku Anda yang Dicari Tidak Ditemukan');
 
         // simpan data user, bukum dan request('buku') kedalam data
         $this->data = [
@@ -47,7 +47,7 @@ class MoneyNodeController extends Controller
         $this->data = array_merge($this->data, [
             'title' => $this->data['book']->name,
             // upadete book
-            'book' => $this->data['auth']->books->where('id', $this->data['book']->id)->load('parties.icon')->first(),
+            'book' => $this->data['auth']->mn_books->where('id', $this->data['book']->id)->load('parties.icon')->first(),
 
             // Modal Create Record
             'accounts' => $this->data['book']->accounts()->with('icon', 'records', 'transferFromMe', 'transferToMe')->get(),

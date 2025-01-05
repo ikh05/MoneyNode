@@ -2,7 +2,7 @@
 
 namespace App\Models;
 
-use App\Models\MoneyNode\Book;
+use App\Models\MoneyNode\Book as MoneyNode_Books;
 use App\Models\User;
 use App\Models\MoneyNode\Account;
 use App\Models\MoneyNode\TransactionParty;
@@ -19,8 +19,8 @@ class Icon extends Model
         return $this->belongsTo(User::class, 'uploader_id');
     }
 
-    public function books() {
-        return $this->hasMany(Book::class, 'icon_id');
+    public function mt_books() {
+        return $this->hasMany(MoneyNode_Books::class, 'icon_id');
     }
 
     public function accounts() {
