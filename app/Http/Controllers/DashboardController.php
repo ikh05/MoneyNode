@@ -21,6 +21,7 @@ class DashboardController extends Controller{
                 'account' => Account::all(),
                 'record' => TransactionRecord::all(),
             ],
-        ]);
+        ]); 
+        
     }
 }
