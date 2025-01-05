@@ -12,7 +12,7 @@ use App\Models\MoneyNode\TransactionRecord;
 class DashboardController extends Controller{
     public function index(){
         $user = Auth::user();
-        $logs = $user->logs;
+        $logs = $user->logs->sortByDesc('updated_at');
         // $log = ($user->is_admin) ? Log::all() : $user->logs;
         return view('dashboard')->with('user', $user)
             ->with('data', [
