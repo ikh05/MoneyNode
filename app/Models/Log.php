@@ -21,8 +21,8 @@ class Log extends Model
         static::creating(function($data) {
             // mencegah log disimpan saat skip
             $user = Auth::user();
-            if($user && $user->skip_log){
-               return false; 
+            if($user && $user->skip_log === 0){
+                return false; 
             }
 
             // data berisi model, action, data

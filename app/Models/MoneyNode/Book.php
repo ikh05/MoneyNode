@@ -5,10 +5,11 @@ namespace App\Models\MoneyNode;
 use App\Models\Icon;
 use App\Models\User;
 use App\Models\MoneyNode\Account;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Database\Eloquent\Model;
 use App\Models\MoneyNode\TransactionParty;
 use App\Models\MoneyNode\TransactionRecord;
 use App\Models\MoneyNode\TransactionCategory;
-use Illuminate\Database\Eloquent\Model;
 
 class Book extends Model
 {
@@ -24,6 +25,8 @@ class Book extends Model
         });
         static::created(function ($book) {
             $book->user->toggleLog();
+
+
             // 2. Membuat Account Default untuk User
             $book->accounts()->create(['name' => 'Cash','first_nominal' => 0,'currency' => 'IDR','icon_id' => 13,'type'=>'cash',]);
             $book->accounts()->create(['name' => 'Uang Darurat','first_nominal' => 0,'currency' => 'IDR','icon_id' => 13,'type'=>'cash',]);
@@ -50,8 +53,8 @@ class Book extends Model
             $book->parties()->create(['name' => 'Bank','icon_id' => 12,]);
 
             
-            $book->user->toggleLog();
-            $book->user->logs()->create([
+            Auth::user()->toggleLog();
+            Auth::user()->logs()->create([
                 'model' => 'MoneyNode(book)',
                 'action' => 'create',
                 'data' => [

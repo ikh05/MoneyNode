@@ -63,10 +63,10 @@ class User extends Authenticatable
     }
 
     // Log
-    public function toggleLog() {
+    public function toggleLog($status = null) {
         // Pastikan bahwa kolom skip_log dapat diubah
         if ($this->skip_log !== null) {
-            $this->skip_log = !$this->skip_log;
+            $this->skip_log = ($status === null ) ? !$this->skip_log : $status;
             $this->save();  // Simpan perubahan ke database
         } else {
             // Menangani kasus ketika kolom skip_log tidak ada atau null
