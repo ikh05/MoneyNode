@@ -1,3 +1,5 @@
+@props(['keterangan'=>false, 'title'])
+
 <ul class="dropdown-menu" style="min-width: 13rem !important;">
     <li class="dropdown-item-text py-0"><p class="mb-0 text-bold">{{ $title }}</p></li>
     <li><hr class="dropdown-divider"></li>

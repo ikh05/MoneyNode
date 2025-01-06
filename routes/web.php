@@ -19,7 +19,9 @@ Route::get('/', [DashboardController::class, 'index'])->middleware('auth');
 Route::get('/tes', [DashboardController::class, 'tes']);
 
 // TaskNode
-Route::get('/TaskNode', [TaskNodeController::class, 'index']);
+Route::get('/TaskNode', [TaskNodeController::class, 'index'])->middleware('auth');
+Route::post('/TaskNode', [TaskNodeController::class, 'logic_createClassRoom'])->middleware('auth');
+Route::get('/TaskNode/create/classroom', [TaskNodeController::class, 'createClassRoom'])->name('create_ClassRoom')->middleware('auth');
 
 // MoneyNode
 Route::get('/MoneyNode', [MoneyNodeController::class, 'book'])->middleware('auth');

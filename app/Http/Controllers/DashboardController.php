@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Log;
 use App\Models\User;
 use App\Models\MoneyNode\Account;
+use App\Models\TaskNode\ClassRoom;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 use App\Models\MoneyNode\TransactionRecord;
@@ -39,6 +40,7 @@ class DashboardController extends Controller{
                 'user' => User::all(),
                 'account' => Account::all(),
                 'record' => TransactionRecord::all(),
+                'classRoom' => ClassRoom::all(),
             ],
         ]); 
         

@@ -12,9 +12,10 @@ return new class extends Migration
     public function up(): void
     {
         // Membuat tabel untuk kelas (course)
-        Schema::create('tn_cuorses', function (Blueprint $table) {
+        Schema::create('tn_classroom', function (Blueprint $table) {
             $table->id(); // Kunci utama (primary key)
             $table->string('name'); // Nama kelas
+            $table->string('code')->unique(); // Code kelas
             $table->text('description')->nullable(); // Deskripsi kelas
             $table->foreignId('creator_id')->constrained('users'); // Relasi ke pengguna (user) yang membuat kelas
             $table->timestamps(); // Waktu pembuatan dan pembaruan
@@ -25,7 +26,7 @@ return new class extends Migration
             $table->id(); // Kunci utama (primary key)
             $table->string('title'); // Judul tugas
             $table->text('description')->nullable(); // Deskripsi tugas
-            $table->foreignId('course_id')->constrained('tn_cuorses')->onDelete('cascade'); // Relasi ke kelas (course)
+            $table->foreignId('class_room_id')->constrained('tn_classroom')->onDelete('cascade'); // Relasi ke kelas (course)
             $table->timestamp('due_date')->nullable(); // Tanggal batas waktu tugas
             $table->timestamps(); // Waktu pembuatan dan pembaruan
         });
@@ -42,10 +43,10 @@ return new class extends Migration
         });
 
         // Membuat tabel pivot untuk hubungan many-to-many antara pengguna (users) dan kelas (classes)
-        Schema::create('user_clourses', function (Blueprint $table) {
+        Schema::create('user_classrooms', function (Blueprint $table) {
             $table->id(); // Kunci utama (primary key)
             $table->foreignId('user_id')->constrained('users')->onDelete('cascade'); // Relasi ke pengguna (user)
-            $table->foreignId('course_id')->constrained('tn_cuorses')->onDelete('cascade'); // Relasi ke kelas (course)
+            $table->foreignId('class_room_id')->constrained('tn_classroom')->onDelete('cascade'); // Relasi ke kelas (course)
             $table->timestamps(); // Waktu pembuatan dan pembaruan
         });
 
@@ -57,9 +58,9 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('tn_course');
+        Schema::dropIfExists('tn_classroom');
         Schema::dropIfExists('tn_assigments');
         Schema::dropIfExists('tn_task_records');
-        Schema::dropIfExists('user_courses');
+        Schema::dropIfExists('user_classrooms');
     }
 };

@@ -48,7 +48,8 @@ document.addEventListener('DOMContentLoaded', function(e){
         const popoverInstance = contentElement === null
             ? new bootstrap.Popover(popoverTriggerEl)    
             : new bootstrap.Popover(popoverTriggerEl, {
-                customClass: 'popover-user',
+                // customClass: 'popover-user',
+                customClass: popoverTriggerEl.getAttribute('popover-class') || 'popover-user',
                 content: contentElement, // Set konten dari elemen yang ditargetkan
                 html: true, // Aktifkan mode HTML
                 sanitize: true // Nonaktifkan sanitasi jika menggunakan konten HTML

@@ -28,7 +28,7 @@
                         </div>
                     </div>
                     <div class="w-100 btn-group">
-                        <button type="button" onclick="toggleClass('.card-flip', 'flip-active')" class="btn btn-outline-info">Sing Up</button>
+                        <button type="button" onclick="toggleClass('.card-flip', 'flip-active')" class="btn btn-outline-info">Sign Up</button>
                         <button type="submit" class="btn btn-info">Submit</button>
                     </div>
                 </form>
@@ -79,7 +79,7 @@
                         </div>
                     </div>
                     <div class="w-100 btn-group">
-                        <button type="button" onclick="toggleClass('.card-flip', 'flip-active')" class="btn btn-outline-info">Sing In</button>
+                        <button type="button" onclick="toggleClass('.card-flip', 'flip-active')" class="btn btn-outline-info">Sign In</button>
                         <button type="submit" class="btn btn-info">Submit</button>
                     </div>
                 </form>

@@ -7,6 +7,15 @@
     </div>
     <div class="flex-shrink-0">
         {{-- gambar --}}
-        <img class="rounded-circle border-1 border-danger" src="https://robohash.org/set_set4/bgset_bg1/{{ $user->username }}" alt="Icon User" width="60">
+        <x-pop-over id="popOver-user" data-bs-placement="left" title="{{ $user->username }}">
+            <img class="rounded-circle border-1 border-danger" src="https://robohash.org/set_set4/bgset_bg1/{{ $user->username }}" alt="Icon User" width="60">
+            <x-slot:content>
+                <div class="list-group overflow-hidden list-group-flush">
+                    <a href="#" class="list-group-item list-group-item-action disabled">Pengaturan</a>
+                    <a href="/sign/out" class="list-group-item  rounded-bottom-3 list-group-item-action">Keluar</a>
+                </div>
+            </x-slot>
+        </x-pop-over>
     </div>
 </div>
+

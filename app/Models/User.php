@@ -5,8 +5,7 @@ namespace App\Models;
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
 use App\Models\Log;
 use App\Models\Icon;
-// use App\Models\TaskNode\Book as TaskNode_Book;
-use App\Models\TaskNode\Course;
+use App\Models\TaskNode\ClassRoom;
 use App\Models\TaskNode\TaskRecord;
 use Illuminate\Notifications\Notifiable;
 use App\Models\MoneyNode\Book as MoneyNode_Book;
@@ -75,7 +74,7 @@ class User extends Authenticatable
     } 
 
     // RELASI
-    public function uploader() {
+    public function uploaderIcon() {
         return $this->hasMany(Icon::class, 'uploader_id');
     }
     public function logs() {
@@ -87,9 +86,15 @@ class User extends Authenticatable
     }
 
 
-    public function courses() {
-        return $this->belongsToMany(Course::class, 'user_courses')
-                    ->withTimestamps(); // Menyertakan timestamps pada pivot
+    public function classrooms(){
+        return $this->belongsToMany(ClassRoom::class, 'user_classrooms', 'user_id', 'class_room_id')
+                    ->withTimestamps();
+    }
+    public function classroomsCreated(){
+        return $this->hasMany(ClassRoom::class, 'creator_id');
+    }
+    public function creatorRoomClass() {
+        return $this->hasMany(ClassRoom::class, 'creator_id');
     }
     public function taskRecords() {
         return $this->hasMany(TaskRecord::class);
