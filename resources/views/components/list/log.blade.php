@@ -24,7 +24,7 @@
             </div>
         </div>
         <div class="row m-0">
-            <p class="mb-0 small fw-light text-truncate">{{ $log->description }}</p>
+            <p class="mb-0 p-0 small fw-light text-truncate">{{ $log->description }}</p>
         </div>
     </div>
 </div>
