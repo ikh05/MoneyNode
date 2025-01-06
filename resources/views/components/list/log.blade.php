@@ -14,16 +14,16 @@
             <i class="fa-regular fa-octagon fa-x-mark"></i>
     @endswitch
     </div>
-    <div class="col">
+    <div class="col pe-0">
         <div class="d-flex" id="log-{{ $log->id }}">
             <div class="flex-grow-1 w-100">
-                <p class="border-1 border mb-0 fw-bold">{{ Str::title($log->model) }} </p>
+                <p class="mb-0 fw-bold">{{ Str::title($log->model) }} </p>
             </div>
             <div class="flex-shrink-0">
-                <p class=" text-end d-block border-1 border mb-0 nowrap">{{ Str::dateForID($log->created_at, $date_format,'Y-m-d H:i:s') }}</p>
+                <p class=" text-end d-block mb-0 nowrap">{{ Str::dateForID($log->created_at, $date_format,'Y-m-d H:i:s') }}</p>
             </div>
         </div>
-        <div class="row border-1 border">
+        <div class="row m-0">
             <p class="mb-0 small fw-light text-truncate">{{ $log->description }}</p>
         </div>
     </div>
