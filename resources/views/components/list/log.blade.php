@@ -16,10 +16,10 @@
     </div>
     <div class="col">
         <div class="d-flex" id="log-{{ $log->id }}">
-            <p parent-cut-width="#log-{{ $log->id }}" name-cut-width='log_{{ $log->id }}' class="mb-0 fw-bold">{{ Str::title($log->model) }} </p>
-            <p class="mb-0 nowrap cut-width-log_{{ $log->id }}">{{ Str::dateForID($log->created_at, $date_format,'Y-m-d H:i:s') }}</p>
+            <p parent-cut-width="#log-{{ $log->id }}" name-cut-width='log_{{ $log->id }}' class="border-1 border mb-0 fw-bold">{{ Str::title($log->model) }} </p>
+            <p class="border-1 border mb-0 nowrap cut-width-log_{{ $log->id }}">{{ Str::dateForID($log->created_at, $date_format,'Y-m-d H:i:s') }}</p>
         </div>
-        <div class="row">
+        <div class="row border-1 border">
             <p class="mb-0 small fw-light text-truncate">{{ $log->description }}</p>
         </div>
     </div>
