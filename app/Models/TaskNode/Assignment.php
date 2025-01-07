@@ -12,14 +12,32 @@ class Assignment extends Model {
 
     protected $guarded = ['id'];
 
+    protected static function booted(){
+
+        static::creating(function ($assignment){
+        });
+        static::created(function ($assignment) {
+            $users = $assignment->classRoom->users;
+            foreach ($users as $user) {
+                $user->logs()->create([
+                    'model' => 'TaskNode(Assignment)',
+                    'action' => 'create',
+                    'data' => [
+                        'after' => $assignment,
+                    ],
+                ]);
+            }
+        });
+    }
+
+
     // RELASI
     public function classRoom(){
         return $this->belongsTo(ClassRoom::class);
     }
 
     // Relasi ke TaskRecord (One to Many)
-    public function taskRecords()
-    {
+    public function records(){
         return $this->hasMany(TaskRecord::class);
     }
     

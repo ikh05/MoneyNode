@@ -9,4 +9,7 @@ class CreateController extends Controller{
         // name, icon, 
         return view('new.book');
     }
+    public function createClassRoom(Request $request) {
+        
+    }
 }

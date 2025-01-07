@@ -2,37 +2,43 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Log;
-use App\Models\User;
+use App\Models\Icon;
 use Illuminate\Support\Str;
+use Illuminate\Http\Request;
 use App\Models\TaskNode\ClassRoom;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Request as ReqRoute;
-use Illuminate\Http\Request;
 
 
 class TaskNodeController extends Controller{
     protected $data;
-    public function __construct(){
-        $user = Auth::user();
-        $this->data['isCreate'] = (!$user->classRooms()->exists() && ReqRoute::route()->getName() !== 'create_ClassRoom');
-    }
+    // public function __construct(){
+    //     // $user = Auth::user();
+    //     // $this->data['isCreate'] = (!$user->classRooms()->exists() && ReqRoute::route()->getName() !== 'create_ClassRoom');
+    // }
 
-    public function index(){
+    public function index(Request $request){
         $user = Auth::user();
-        if ($this->data['isCreate']) {
-            return $this->createClassRoom();
-        }
+        $classRoom = $user->classRooms()->filter($request)->with(['assignments.records'])->get()->first();
+
+        // tampilkan halaman error bahwa classroom tidak di temukan
+        if($classRoom === null) abort(400, 'Classroom yang anda cari tidak ada!');
+        
+        // categories yang sudah ada didalam assigment
+        $categories = $classRoom->assignments->groupBy('category')->keys();
+        
         return view('task-node.dashboard', [
             'user' => $user,
-            'data' => [],
+            'classRoom' => $classRoom,
+            'categories' => $categories,
+            'icon' => collect(Icon::$iconFontAwesome['solid']),
         ]);
     }
+    
     public function createClassRoom() {
         return view('task-node.create-class-room', [
             'user' => Auth::user(),
-            'allClassRoom' => ClassRoom::with(['assignments'])->skip(Auth::user()->id)->get(),
+            'allClassRoom' => ClassRoom::skip(Auth::user()->id)->get(),
         ]);
     }
     public function logic_createClassRoom(Request $request){
@@ -66,8 +72,25 @@ class TaskNodeController extends Controller{
                     'after' => $classRoom->toArray(),
                 ],
             ]);
+            $request->session()->regenerate();
         }
-        $request->session()->regenerate();
         $user->classRooms()->attach($classRoom->id);
+    }
+
+    public function logic_createTask(Request $request){
+        // dd($request);
+        $credentials = $request->validate([
+            'title' => 'required',
+            'category' => 'required',
+            'deu_date' => 'nullable',
+            'class_room_id' => 'integer',
+            'description' => 'nullable',
+        ]);
+        // cek classroom
+        $classRoom = Auth::user()->classRooms->where('id', $credentials['class_room_id'])->first();
+        if(!$classRoom) abort(400, 'Permintaan ada tidak bisa dilaksanakan, silahkan hubungi admin!');;
+        $classRoom->assignments()->create($credentials);
+        $request->session()->regenerate();
+        return redirect('/TaskNode');
     }
 }

@@ -72,7 +72,7 @@ document.addEventListener('DOMContentLoaded', function(e){
     // cut Width
     cutWidth();
     
-    // date
+    // date,  cukup tambahkan attribut label="date"
     const date = document.querySelectorAll('[label=date]');
     [...date].forEach(date => {
         const input = document.getElementById(date.getAttribute('for'))
@@ -85,6 +85,14 @@ document.addEventListener('DOMContentLoaded', function(e){
             else {
                 date.innerHTML = input.value.split('-').reverse().map(e => e > 99 ? e%100 : e).join('/');
             }
+        })
+    })
+    // date tetapi tidak mengubah label, cukup tambahkan attribut label="date-none"
+    const date_none = document.querySelectorAll('[label=date-none]');
+    [...date_none].forEach(date => {
+        const input = document.getElementById(date.getAttribute('for'))
+        date.addEventListener('click', function(){
+            input.showPicker()
         })
     })
 

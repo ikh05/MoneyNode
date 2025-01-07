@@ -25,6 +25,8 @@ return new class extends Migration
         Schema::create('tn_assignments', function (Blueprint $table) {
             $table->id(); // Kunci utama (primary key)
             $table->string('title'); // Judul tugas
+            $table->string('category')->nullable(); // Kategori tugas
+            $table->boolean('is_group')->default(false); //Apakah tugas merupakan tugas kelompok atau tidak
             $table->text('description')->nullable(); // Deskripsi tugas
             $table->foreignId('class_room_id')->constrained('tn_classroom')->onDelete('cascade'); // Relasi ke kelas (course)
             $table->timestamp('due_date')->nullable(); // Tanggal batas waktu tugas

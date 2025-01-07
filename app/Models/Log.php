@@ -34,6 +34,7 @@ class Log extends Model
                         if($data->model === 'MoneyNode(transaction)') $data->description = "Menambahkan transaksi: ".$data->data['after']['type']; 
                         if($data->model === 'user') $data->description = "Membuat user: ".$data->data['after']['username']; 
                         if($data->model === 'TaskNode(Classroom)') $data->description = "Membuat classroom: ".$data->data['after']['name'];
+                        if($data->model === 'TaskNode(Assignment)') $data->description = $user->username." membuat tugas: ".$data->data['after']['title'];
                         break;
 
                     case 'delete':

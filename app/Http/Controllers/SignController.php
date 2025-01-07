@@ -12,6 +12,8 @@ use Illuminate\Validation\ValidationException;
 
 class SignController extends Controller{
     public function index(){
+        // Simpan URL sebelumnya dalam session, kecuali rute login sendiri
+        session(['previous_url' => url()->previous()]);
         return view('login');
     }
 
@@ -52,8 +54,17 @@ class SignController extends Controller{
         ]);
 
         if (Auth::attempt($credentials)) {
+            // Ambil URL sebelumnya dari session
+            $previousUrl = session('previous_url', '/'); // Default ke '/'
             $request->session()->regenerate();
-            return redirect()->intended();
+        
+            // Cek apakah berasal dari halaman login
+            if ($previousUrl === url('/login')) {
+                return redirect('/'); // Arahkan ke dashboard atau halaman utama
+            }
+
+            // Redirect ke halaman sebelumnya
+            return redirect($previousUrl);
         }
         return back()->with('message', 'gagal login');
     }

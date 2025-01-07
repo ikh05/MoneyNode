@@ -4,7 +4,7 @@
         <div class="card-front">
             <div class="card p-4">
                 <h3 class="text-center mb-3">New Classroom</h3>
-                <form method="POST" action="/TaskNode">
+                <form method="POST">
                     @csrf
                     <input type="hidden" value="create" name="form">
                     <div class="mb-3">
@@ -33,7 +33,7 @@
         <div class="card-back">
             <div class="card p-4">
                 <h3 class="text-center mb-3">Join ClassRoom</h3>
-                <form method="POST" action="/TaskNode">
+                <form method="POST">
                     @csrf
                     <input type="hidden" value="join" name="form">
                     <div class="mb-3">

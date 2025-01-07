@@ -7,23 +7,40 @@ use App\Http\Controllers\SignController;
 use App\Http\Controllers\TaskNodeController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\MoneyNodeController;
-
+use App\Http\Middleware\CheckClassRoom;
+use SebastianBergmann\CodeCoverage\Report\Html\Dashboard;
 
 // Jika pengguna belum login, arahkan ke halaman sign in
-Route::post('/sign', [SignController::class, 'sign'])->middleware('guest');
-Route::get('/sign', [SignController::class, 'index'])->middleware('guest')->name('login');
-Route::get('/sign/out', [SignController::class, 'logOut']);
+Route::middleware('guest')->group(function(){
+    Route::post('/sign', [SignController::class, 'sign']);
+    Route::get('/sign', [SignController::class, 'index'])->name('login');
+});
 
-// Dashboard
-Route::get('/', [DashboardController::class, 'index'])->middleware('auth');
-Route::get('/tes', [DashboardController::class, 'tes']);
+Route::middleware('auth')->group(function(){
+    // Dashboard
+    Route::get('/', [DashboardController::class, 'index']);
+    
+    // tes, hanya bisa digunakan saat dev
+    Route::get('/tes', [DashboardController::class, 'tes']);
+    
+    // log out
+    Route::get('/sign/out', [SignController::class, 'logOut']);
 
-// TaskNode
-Route::get('/TaskNode', [TaskNodeController::class, 'index'])->middleware('auth');
-Route::post('/TaskNode', [TaskNodeController::class, 'logic_createClassRoom'])->middleware('auth');
-Route::get('/TaskNode/create/classroom', [TaskNodeController::class, 'createClassRoom'])->name('create_ClassRoom')->middleware('auth');
+    // TaskNode
+    Route::prefix('TaskNode')->group(function(){
+        Route::get('/', [TaskNodeController::class, 'index'])->middleware(CheckClassRoom::class);
+        Route::post('/create/classroom', [TaskNodeController::class, 'logic_createClassRoom']);
+        Route::post('/create/task', [TaskNodeController::class, 'logic_createTask']);
+        Route::get('/create/classroom', [TaskNodeController::class, 'createClassRoom'])->name('create_ClassRoom');
+    });
+    
+    // MoneyNode
+    Route::prefix('MoneyNode')->group(function(){
+        Route::get('/', [MoneyNodeController::class, 'book']);
+        Route::get('/account', [MoneyNodeController::class, 'account']);
+        Route::post('/create/record', [MoneyNodeController::class, 'createRecord']);
+    });
+    
+});
 
-// MoneyNode
-Route::get('/MoneyNode', [MoneyNodeController::class, 'book'])->middleware('auth');
-Route::get('/MoneyNode/account', [MoneyNodeController::class, 'account'])->middleware('auth');
-Route::post('/MoneyNode/create/record', [MoneyNodeController::class, 'createRecord'])->middleware('auth');
+

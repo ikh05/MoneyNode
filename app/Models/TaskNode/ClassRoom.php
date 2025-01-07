@@ -17,9 +17,8 @@ class ClassRoom extends Model{
     }
 
 
-    // Scop
-
-
+    
+    
     // RELASI
     public function assignments() {
         return $this->hasMany(Assignment::class);
@@ -30,12 +29,30 @@ class ClassRoom extends Model{
     // Relasi many-to-many ke pengguna yang bergabung di kelas melalui tabel pivot
     public function users(){
         return $this->belongsToMany(User::class, 'user_classrooms', 'class_room_id', 'user_id')
-                    ->withTimestamps();
+        ->withTimestamps();
     }
+    // SCOPE
 
     public function scopeSkip($query, $userId){
         return $query->whereDoesntHave('users', function ($subQuery) use ($userId) {
             $subQuery->where('user_id', $userId);
         });
+    }
+
+    public function scopeFilter($query, $filter){
+        // Pastikan $filter berupa array
+        $filter = is_array($filter) ? $filter : $filter->all();
+        
+        // code
+        $query->when(isset($filter['code']) ? $filter['code'] : false, function($query, $code){
+            return $query->where('code', $code);
+        });
+
+        // name
+        $query->when(isset($filter['name']) ? $filter['name'] : false, function($query, $name){
+            return $query->where('name', $name);
+        });
+
+        return $query;
     }
 }
