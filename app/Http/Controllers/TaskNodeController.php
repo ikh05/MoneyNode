@@ -67,6 +67,7 @@ class TaskNodeController extends Controller{
                 ],
             ]);
         }
+        $request->session()->regenerate();
         $user->classRooms()->attach($classRoom->id);
     }
 }

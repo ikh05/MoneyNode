@@ -33,14 +33,14 @@
         </div>
     
         <div>
-        <div class="container border-top pt-2">
+        {{-- <div class="container border-top pt-2">
             <x-list.task :log="$data['task']->first()"/>
                 @foreach ($data['task']->skip(1) as $log)
                 <hr class="mx-0 my-1">
                 <x-list.task :log=$log/>
                 @endforeach
             </div>
-        </div>
+        </div> --}}
     </form>
 @endsection
 
