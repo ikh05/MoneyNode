@@ -41,14 +41,11 @@ class TaskNodeController extends Controller{
         if($request['form'] === 'join'){
             // join
             $classRoom = ClassRoom::where('code', $request['code'])->first();
-            Log::create([
-                'model' => 'User - ClassRoom',
+            $user->logs()->create([
+                'model' => 'TaskNode(Classroom)',
                 'action' => 'join',
                 'data' => [
-                    'after' => [
-                        'user' => $user,
-                        'classRoom' => $classRoom,
-                    ],
+                    'after' => $classRoom->toArray(),
                 ],
             ]);
         }else{
@@ -62,14 +59,11 @@ class TaskNodeController extends Controller{
                 'description' => $request['description'],
             ];
             $classRoom = ClassRoom::create($data);
-            Log::create([
-                'model' => 'User - ClassRoom',
+            $user->logs()->create([
+                'model' => 'TaskNode(Classroom)',
                 'action' => 'create',
                 'data' => [
-                    'after' => [
-                        'user' => $user,
-                        'classRoom' => $classRoom,
-                    ],
+                    'after' => $classRoom->toArray(),
                 ],
             ]);
         }

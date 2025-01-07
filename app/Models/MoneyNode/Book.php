@@ -24,9 +24,15 @@ class Book extends Model
             if($book->icon_id === null) $book->icon_id = 1;
         });
         static::created(function ($book) {
-            $book->user->toggleLog();
-
-
+            $user = Auth::user();
+            $user->logs()->create([
+                'model' => 'MoneyNode(book)',
+                'action' => 'create',
+                'data' => [
+                    'after' => $book->toArray(),
+                ],
+            ]);
+            $user->toggleLog(true);
             // 2. Membuat Account Default untuk User
             $book->accounts()->create(['name' => 'Cash','first_nominal' => 0,'currency' => 'IDR','icon_id' => 13,'type'=>'cash',]);
             $book->accounts()->create(['name' => 'Uang Darurat','first_nominal' => 0,'currency' => 'IDR','icon_id' => 13,'type'=>'cash',]);
@@ -51,16 +57,7 @@ class Book extends Model
             $book->parties()->create(['name' => 'Vendor','icon_id' => 10,]);
             $book->parties()->create(['name' => 'Customer','icon_id' => 11,]);
             $book->parties()->create(['name' => 'Bank','icon_id' => 12,]);
-
-            
-            Auth::user()->toggleLog();
-            Auth::user()->logs()->create([
-                'model' => 'MoneyNode(book)',
-                'action' => 'create',
-                'data' => [
-                    'after' => $book->toArray(),
-                ],
-            ]);
+            $user->toggleLog();
         });
     }
     // Total Nominal

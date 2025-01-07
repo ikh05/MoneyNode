@@ -2,12 +2,13 @@
 
 namespace App\Models\MoneyNode;
 
-use App\Models\MoneyNode\Book;
 use App\Models\Icon;
-use App\Models\MoneyNode\TransactionRecord;
-use Illuminate\Database\Eloquent\Model;
+use App\Models\MoneyNode\Book;
 use Illuminate\Support\Collection;
+use Illuminate\Support\Facades\Auth;
 use PhpParser\ErrorHandler\Collecting;
+use Illuminate\Database\Eloquent\Model;
+use App\Models\MoneyNode\TransactionRecord;
 
 class TransactionCategory extends Model
 {
@@ -18,13 +19,16 @@ class TransactionCategory extends Model
     
     public static function booted(){
         static::created(function ($category){
-            $category->book->user->logs()->create([
-                'model' => 'MoneyNode(category)',
-                'action' => 'create',
-                'data' => [
-                    'after' => $category->toArray(),
-                ],
-            ]);
+            $user = Auth::user();
+            if($user->skip_log){
+                $category->book->user->logs()->create([
+                    'model' => 'MoneyNode(category)',
+                    'action' => 'create',
+                    'data' => [
+                        'after' => $category->toArray(),
+                    ],
+                ]);
+            }
         });
     }
 

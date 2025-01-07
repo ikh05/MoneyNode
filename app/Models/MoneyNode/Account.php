@@ -2,10 +2,11 @@
 
 namespace App\Models\MoneyNode;
 
-use App\Models\MoneyNode\Book;
 use App\Models\Icon;
-use App\Models\MoneyNode\TransactionRecord;
+use App\Models\MoneyNode\Book;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Database\Eloquent\Model;
+use App\Models\MoneyNode\TransactionRecord;
 
 class Account extends Model
 {
@@ -23,13 +24,16 @@ class Account extends Model
         });
 
         static::created(function ($account){
-            $account->book->user->logs()->create([
-                'model' => 'MoneyNode(account)',
-                'action' => 'create',
-                'data' => [
-                    'after' => $account->toArray(),
-                ],
-            ]);
+            $user = Auth::user();
+            if($user->skip_log){
+                $account->book->user->logs()->create([
+                    'model' => 'MoneyNode(account)',
+                    'action' => 'create',
+                    'data' => [
+                        'after' => $account->toArray(),
+                    ],
+                ]);
+            }
         });
     }
 

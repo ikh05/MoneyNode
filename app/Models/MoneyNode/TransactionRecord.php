@@ -4,9 +4,10 @@ namespace App\Models\MoneyNode;
 
 use App\Models\MoneyNode\Book;
 use App\Models\MoneyNode\Account;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Database\Eloquent\Model;
 use App\Models\MoneyNode\TransactionParty;
 use App\Models\MoneyNode\TransactionCategory;
-use Illuminate\Database\Eloquent\Model;
 
 
 class TransactionRecord extends Model{
@@ -18,13 +19,16 @@ class TransactionRecord extends Model{
     
     public static function booted(){
         static::created(function ($transaction){
-            $transaction->book->user->logs()->create([
-                'model' => 'MoneyNode(transaction)',
-                'action' => 'create',
-                'data' => [
-                    'after' => $transaction->toArray(),
-                ],
-            ]);
+            $user = Auth::user();
+            if($user->skip_log){
+                $transaction->book->user->logs()->create([
+                    'model' => 'MoneyNode(transaction)',
+                    'action' => 'create',
+                    'data' => [
+                        'after' => $transaction->toArray(),
+                    ],
+                ]);
+            }
         });
     }
 

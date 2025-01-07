@@ -54,7 +54,7 @@ return new class extends Migration
         Schema::create('logs', function (Blueprint $table) {
             $table->id();
             $table->foreignId('user_id')->nullable()->constrained('users'); // User yang melakukan aktivitas
-            $table->enum('action', ['create', 'update', 'delete']); // Aksi (contoh: "create", "update", "delete")
+            $table->enum('action', ['create', 'update', 'delete', 'join', 'exit']); // Aksi (contoh: "create", "update", "delete")
             $table->string('model'); // Model yang diubah (contoh: "TransactionRecord")
             $table->json('data')->nullable(); // Data lama atau baru
             $table->string('description')->nullable()->default(null); // description yang akan di tampilkan

@@ -2,10 +2,11 @@
 
 namespace App\Models\MoneyNode;
 
-use App\Models\MoneyNode\Book;
 use App\Models\Icon;
-use App\Models\MoneyNode\TransactionRecord;
+use App\Models\MoneyNode\Book;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Database\Eloquent\Model;
+use App\Models\MoneyNode\TransactionRecord;
 
 class TransactionParty extends Model
 {
@@ -16,13 +17,16 @@ class TransactionParty extends Model
 
     public static function booted(){
         static::created(function ($party){
-            $party->book->user->logs()->create([
-                'model' => 'MoneyNode(party)',
-                'action' => 'create',
-                'data' => [
-                    'after' => $party->toArray(),
-                ],
-            ]);
+            $user = Auth::user();
+            if($user->skip_log){
+                $party->book->user->logs()->create([
+                    'model' => 'MoneyNode(party)',
+                    'action' => 'create',
+                    'data' => [
+                        'after' => $party->toArray(),
+                    ],
+                ]);
+            }
         });
     }
 
