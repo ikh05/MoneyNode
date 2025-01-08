@@ -28,11 +28,12 @@ Route::middleware('auth')->group(function(){
     Route::get('/sign/out', [SignController::class, 'logOut']);
 
     // TaskNode
-    Route::prefix('TaskNode')->group(function(){
+    Route::prefix('TaskNode')->middleware(SuperAdmin::class)->group(function(){
         Route::get('/', [TaskNodeController::class, 'index'])->middleware(CheckClassRoom::class);
-        Route::post('/create/classroom', [TaskNodeController::class, 'logic_createClassRoom']);
-        Route::post('/create/task', [TaskNodeController::class, 'logic_createTask']);
         Route::get('/create/classroom', [TaskNodeController::class, 'createClassRoom'])->name('create_ClassRoom');
+        Route::post('/create/classroom', [TaskNodeController::class, 'logic_createClassRoom']);
+        Route::get('/create/task', function(){return view('tes', ['data' => request()]);});
+        Route::post('/create/task', [TaskNodeController::class, 'logic_createTask']);
     });
     
     // MoneyNode
