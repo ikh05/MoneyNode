@@ -28,7 +28,7 @@ Route::middleware('auth')->group(function(){
     Route::get('/sign/out', [SignController::class, 'logOut']);
 
     // TaskNode
-    Route::prefix('TaskNode')->middleware(SuperAdmin::class)->group(function(){
+    Route::prefix('TaskNode')->group(function(){
         Route::get('/', [TaskNodeController::class, 'index'])->middleware(CheckClassRoom::class);
         Route::get('/create/classroom', [TaskNodeController::class, 'createClassRoom'])->name('create_ClassRoom');
         Route::post('/create/classroom', [TaskNodeController::class, 'logic_createClassRoom']);
