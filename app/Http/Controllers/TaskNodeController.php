@@ -19,19 +19,18 @@ class TaskNodeController extends Controller{
 
     public function index(Request $request){
         $user = Auth::user();
-        $classRoom = $user->classRooms()->filter($request)->with(['assignments.records'])->get()->first();
+        $classRoom = $user->classRooms()->filter($request)->get()->first();
 
         // tampilkan halaman error bahwa classroom tidak di temukan
         if($classRoom === null) abort(400, 'Classroom yang anda cari tidak ada!');
         
-        // categories yang sudah ada didalam assigment
-        $categories = $classRoom->assignments->groupBy('category')->keys();
-        
         return view('task-node.dashboard', [
             'user' => $user,
             'classRoom' => $classRoom,
-            'categories' => $categories,
+            'categories' => $classRoom->assignments->groupBy('category')->keys(),
+            'title' => $classRoom->assignments->groupBy('title')->keys(),
             'icon' => collect(Icon::$iconFontAwesome['solid']),
+            'assignments' => $classRoom->assignments()->with('records')->get()->reverse()
         ]);
     }
     
@@ -79,14 +78,17 @@ class TaskNodeController extends Controller{
 
     public function logic_createTask(Request $request){
         // dd($request);
+        $request['is_group'] = $request['is_group'] === 'on' ? true : false;
         $credentials = $request->validate([
             'title' => 'required',
             'category' => 'required',
-            'deu_date' => 'nullable',
+            'due_date' => 'nullable',
             'class_room_id' => 'integer',
             'description' => 'nullable',
+            'is_group' => 'boolean',
         ]);
         // cek classroom
+        // dd($credentials);
         $classRoom = Auth::user()->classRooms->where('id', $credentials['class_room_id'])->first();
         if(!$classRoom) abort(400, 'Permintaan ada tidak bisa dilaksanakan, silahkan hubungi admin!');;
         $classRoom->assignments()->create($credentials);

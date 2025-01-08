@@ -8,24 +8,24 @@
         {{-- Daftar App --}}
         {{-- yang muncul hanya 4 jika lebih yang lain akan di masukkan kedalam hidden  --}}
         <div class="text-center">
-            <a href='#' class="btn btn-secondary disabled"><i class="fa-screen-users fa-solid fa-doutone"></i></a>
-            <p class="small mb-0 fw-bold">Kelas</p>
+            <a href='#' class="btn btn-secondary disabled"><i class="fs-3 fa-screen-users fa-solid fa-doutone"></i></a>
+            <p class="small text-secondary mb-0 fw-bold">Kelas</p>
         </div>
         <div class="text-center">
-            <a href='#' class="btn btn-secondary disabled"><i class="fa-duotone fa-solid fa-person-to-door"></i></a>
-            <p class="small mb-0 fw-bold">Keluar</p>
+            <a href='#' class="btn btn-secondary disabled"><i class="fs-3 fa-duotone fa-solid fa-person-to-door"></i></a>
+            <p class="small text-secondary mb-0 fw-bold">Keluar</p>
         </div>
         <div class="text-center">
-            <a href='#' class="btn btn-secondary" data-bs-toggle="modal" data-bs-target="#modalTugas"><i class="fa-list-check fa-solid fa-doutone"></i></a>
+            <a href='#' class="btn btn-secondary" data-bs-toggle="modal" data-bs-target="#modalTugas"><i class="fs-3 fa-list-check fa-solid fa-doutone"></i></a>
             <p class="small mb-0 fw-bold">Tugas Baru</p>
         </div>
         <div class="text-center">
-            <a href='#' class="disabled btn btn-secondary"><i class="fa-calendar-star fa-duotone fa-solid"></i></i></a>
-            <p class="small mb-0 fw-bold">Kalender</p>
+            <a href='#' class="disabled btn btn-secondary"><i class="fs-3 fa-calendar-star fa-duotone fa-solid"></i></i></a>
+            <p class="small text-secondary mb-0 fw-bold">Kalender</p>
         </div>
         <div class="text-center">
-            <a href='#' class="disabled btn btn-secondary"><i class="fa-comment fa-duotone fa-regular"></i></i></a>
-            <p class="small mb-0 fw-bold">Chat</p>
+            <a href='#' class="disabled btn btn-secondary"><i class="fs-3 fa-comment fa-duotone fa-regular"></i></i></a>
+            <p class="small text-secondary mb-0 fw-bold">Chat</p>
         </div>
     </div>
 
@@ -35,15 +35,13 @@
     </div>
 
     {{-- @dd($icon->random()) --}}
-    @if ($classRoom->assignments->count() > 0)
-    <div class="container">
-        <div class="container border-top pt-2">
-            <x-list.task :task="$classRoom->assignments->first()" icon="{{ $icon->random() }}"/>
-            @foreach ($classRoom->assignments->skip(1) as $task)
-                <hr class="mx-0 my-1">
-                <x-list.task :task=$task icon="{{ $icon->random() }}"/>
-            @endforeach
-        </div>
+    @if ($assignments->count() > 0)
+    <div class="container border-top pt-2">
+        <x-list.task :task="$assignments->first()" icon="{{ $icon->random() }}"/>
+        @foreach ($assignments->skip(1) as $task)
+            <hr class="mx-0 my-1">
+            <x-list.task :task=$task icon="{{ $icon->random() }}"/>
+        @endforeach
     </div>
     @else
         <p class="fs-2 text-center fw-bold my-3">Tidak Ada Tugas</p>
@@ -63,11 +61,16 @@
             </div>
             <div class="modal-body">
                 <div class="form-floating mb-2">
-                    <input required type="text" name="title" id="title" class="form-control" placeholder="Judul Tugas">
+                    <input required type="text" name="title" list="titles" id="title" class="form-control" placeholder="Judul Tugas" autocomplete="off">
                     <label for="title">* Judul Tugas</label>
+                    <datalist id="titles">
+                        @foreach ($title as $t)
+                            <option value="{{ $t }}">
+                        @endforeach
+                    </datalist>
                 </div>
                 <div class="form-floating mb-2">
-                    <input type="text" name="description" id="description" class="form-control" placeholder="Gambaran Tugas">
+                    <input type="text" name="description" id="description" class="form-control" placeholder="Gambaran Tugas" autocomplete="off">
                     <label for="description">Gambaran Tugas</label>
                 </div>
                 <div class="input-group mb-2">

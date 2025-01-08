@@ -1,25 +1,22 @@
 <!-- Walk as if you are kissing the Earth with your feet. - Thich Nhat Hanh -->
 {{-- syarat ini berjalan dengan baik di luar loop ada .container --}}
 @props(['task', 'date_format' => 'j M Y', 'icon'])
-<div class="row">
-    <div class="col-auto icon d-flex justify-content-center align-items-center p-2 rounded-2 text-bg-secondary fs-3 fw-bold" style="width: 3rem; height: 3rem;">
+<div class="d-flex" id="task-{{ $task->id }}">
+    <div class="cut-width-task-{{ $task->id }} col-auto icon d-flex justify-content-center align-items-center p-2 rounded-2 text-bg-secondary fs-3" style="width: 3rem; height: 3rem;">
         {{-- untuk sementara random, kedepannya bisa di pilih user --}}
         <i class="{{ $icon }} fa-solid "></i>
     </div>
-    <div class="col pe-0 ms-2">
-        <div class="row">
-            <div class="col">
-                @dd($task)
-                <div class="row">{{ Str::title($task->category.' - '.$task->title) }}</div>
-                <div class="row">
-                    <div class="col">{{ $task->due_date }}</div>
-                    <div class="col">{{ $task->is_group === null ? 'Individu' : 'Kelompok' }}</div>
-                </div>
+    <div class="flex-grow-1 d-flex">
+        {{-- cut --}}
+        <div class="flex-grow-1 mx-2" parent-cut-width="#task-{{ $task->id }}" name-cut-width="task-{{ $task->id }}">
+            <p class="fw-bold mb-0 text-truncate w-100">{{ $task->category.' - '.Str::title($task->title) }}</p>
+            <div class="d-flex justify-content-between">
+                <p class="mb-0 fw-light text-secondary-emphasis">{{$task->due_date === null ? 'No dateline' : Str::dateForID($task->due_date, 'D, d M Y', 'Y-m-d H:i:s') }}</p>
+                <p class="m-0 me-2" style="font-size: .75rem">{{ $task->is_group == 0 ? 'Individu' : 'Kelompok' }}</p>
             </div>
-            <div class="col-auto">
-                {{-- statusss --}}
-                Status
-            </div>
+        </div>
+        <div class="cut-width-task-{{ $task->id }} d-flex justify-content-center align-items-center gap-2">
+            <button class="btn btn-success" style="font-size: .75rem">{{ $task->record ? $task->record->status : 'Padding' }}</button>
         </div>
     </div>
 </div>

@@ -2,12 +2,13 @@
 
 
 
+use App\Http\Middleware\SuperAdmin;
 use Illuminate\Support\Facades\Route;
+use App\Http\Middleware\CheckClassRoom;
 use App\Http\Controllers\SignController;
 use App\Http\Controllers\TaskNodeController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\MoneyNodeController;
-use App\Http\Middleware\CheckClassRoom;
 use SebastianBergmann\CodeCoverage\Report\Html\Dashboard;
 
 // Jika pengguna belum login, arahkan ke halaman sign in
@@ -21,7 +22,7 @@ Route::middleware('auth')->group(function(){
     Route::get('/', [DashboardController::class, 'index']);
     
     // tes, hanya bisa digunakan saat dev
-    Route::get('/tes', [DashboardController::class, 'tes']);
+    Route::get('/tes', [DashboardController::class, 'tes'])->middleware(SuperAdmin::class);
     
     // log out
     Route::get('/sign/out', [SignController::class, 'logOut']);
