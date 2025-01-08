@@ -1,4 +1,6 @@
-console.log('file function.js sudah load 1.5');
+console.log('file function.js sudah load 1.7.4');
+
+
 function toggleClass(element, nameClass){
     stringToDOM(element).classList.toggle(nameClass);
 }
@@ -30,6 +32,11 @@ function stringToDOM(element){
 }
 
 let ret = '';
+// Fungsi yang dijalankan setelah change
+document.addEventListener('change', function(e){
+    
+});
+
 // Fungsi yang dijalankan setelah resize
 window.addEventListener('resize', function(){
     // cut Width
@@ -37,6 +44,19 @@ window.addEventListener('resize', function(){
 });
 // Fungsi yang dijalankan setelah di LOAD
 document.addEventListener('DOMContentLoaded', function(e){
+    // filter
+    // Tambahkan event listener ke semua elemen dengan atribut `filtertarget`
+    const filterElements = document.querySelectorAll('[target-filter]');
+    filterElements.forEach(filterElement => {
+        const inputs = filterElement.querySelectorAll('input, select, textarea');
+
+        inputs.forEach(input => {
+            // Trigger filter saat ada perubahan input
+            input.addEventListener('input', () => applyFilter(filterElement));
+            input.addEventListener('change', () => applyFilter(filterElement));
+        });
+    });
+    
     // popover
     // Inisialisasi popover untuk setiap elemen dengan data-bs-toggle="popover"
     const popoverTriggerList = document.querySelectorAll('[data-bs-toggle="popover"]');
@@ -173,4 +193,32 @@ function cutWidth(){
             cut.style.width = width_parent+'px';
         })
     }
+}
+// Fungsi utama untuk memfilter elemen berdasarkan elemen dengan `filtertarget`
+function applyFilter(filterElement) {
+
+    const targetSelector = filterElement.getAttribute('target-filter');
+    const targetElement = document.querySelector(targetSelector);
+
+    if (!targetElement) return; // Jika target tidak ditemukan, keluar dari fungsi
+    
+    const filterInputs = Array.from(filterElement.querySelectorAll('input, select, textarea'));
+    const targetItems = Array.from(targetElement.querySelectorAll('.list')); // Contoh class 'task'
+    const countItem = targetItems.length;
+    
+    targetItems.forEach(list => {
+        // kita cek semua filternya
+        list.classList.remove('d-none');
+        filterInputs.forEach(filter => {
+            if(!filter.hasAttribute('special')){
+                if(filter.value !== '' && list.hasAttribute(filter.getAttribute('name'))){
+                    let list_value = list.getAttribute(filter.getAttribute('name'));
+                    if(!list_value.includes(filter.value)) list.classList.add('d-none');
+                }
+            }
+        });
+    });
+   
+    if(targetElement.querySelectorAll('.list.d-none').length === countItem) targetElement.querySelector('.allHidden').classList.remove('d-none');
+    else targetElement.querySelector('.allHidden').classList.add('d-none');
 }

@@ -19,7 +19,7 @@ class TaskNodeController extends Controller{
 
     public function index(Request $request){
         $user = Auth::user();
-        $classRoom = $user->classRooms()->filter($request)->get()->first();
+        $classRoom = $user->classRooms()->filter(['code' => $request['codeClass']])->get()->first();
 
         // tampilkan halaman error bahwa classroom tidak di temukan
         if($classRoom === null) abort(400, 'Classroom yang anda cari tidak ada!');

@@ -45,13 +45,13 @@ class ClassRoom extends Model{
         
         // code
         $query->when(isset($filter['code']) ? $filter['code'] : false, function($query, $code){
-            return $query->where('code', $code);
+            return ($code === null) ? $query : $query->where('code', $code);
         });
 
-        // name
-        $query->when(isset($filter['name']) ? $filter['name'] : false, function($query, $name){
-            return $query->where('name', $name);
-        });
+        // // name
+        // $query->when(isset($filter['name']) ? $filter['name'] : false, function($query, $name){
+        //     return $query->where('name', $name);
+        // });
 
         return $query;
     }

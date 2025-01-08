@@ -30,22 +30,54 @@
     </div>
 
     {{-- filter --}}
-    <div id="filter" class="border-top border-bottom p-5">
-
+    <div id="filter" target-filter='#task' class="border-top border-bottom p-sm-3 p-2 pb-2">
+        <div class="row gap-2 mb-1">
+            <div class="col p-0">
+                <div class="form-floating">
+                    <input type="text" name="title" id="title-task" class="form-control" placeholder="Cari Judul">
+                    <label for="title-task">Cari Judul</label>
+                </div>
+            </div>
+            <div class="col-auto p-0">
+                <button class="btn btn-secondary w-100 h-100"><i class="fa-solid fa-filter-list fs-2"></i></button>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-6">
+                <select name="category" id="" class="form-select pe-1 border-0 bg-transparent" style="font-size: .75rem">
+                    <option value='' class="text-bg-dark" style="font-size: 1rem">Matkul/Mapel</option>
+                    @foreach ($categories as $c)
+                        <option value="{{ $c }}" class="text-bg-dark" style="font-size: 1rem">{{ $c }}</option>
+                    @endforeach
+                </select>
+            </div>
+            <div class="col-6">
+                <div class="input-group">
+                    <label class="my-auto text-secondary-emphasis " for="type_sort" style="font-size: .75rem">Sort by</label>
+                    <select name="mapel/matkul" id="type_sort" class="rounded form-select border-0 bg-transparent" style="font-size: .75rem">
+                        <option value='lat' class="text-bg-dark" style="font-size: 1rem">Lates</option>
+                        <option value='desc' class="text-bg-dark" style="font-size: 1rem">Descending</option>
+                    </select>
+                </div>
+            </div>
+            
+        </div>
     </div>
 
     {{-- @dd($icon->random()) --}}
-    @if ($assignments->count() > 0)
-    <div class="container border-top pt-2">
-        <x-list.task :task="$assignments->first()" icon="{{ $icon->random() }}"/>
-        @foreach ($assignments->skip(1) as $task)
-            <hr class="mx-0 my-1">
-            <x-list.task :task=$task icon="{{ $icon->random() }}"/>
-        @endforeach
+    <div id="task" class="container p-0">
+        @if ($assignments->count() > 0)
+            <ul class="list-group w-100 list-group-flush">
+                @foreach ($assignments as $task)
+                    <x-list.task :task=$task icon="{{ $icon->random() }}"/>
+                @endforeach
+            </ul>
+            <p class="allHidden fs-2 text-center fw-bold my-3 d-none">Tidak Ada Tugas yang Memenuhi Filter!</p>
+        @else
+            <p class="fs-2 text-center fw-bold my-3">Tidak Ada Tugas Sama sekali!</p>
+        @endif
     </div>
-    @else
-        <p class="fs-2 text-center fw-bold my-3">Tidak Ada Tugas</p>
-    @endif
+
 
 
 
