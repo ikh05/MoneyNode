@@ -64,7 +64,7 @@ Route::get('tes_dns',function(){
         echo "<br>";
     };
     tes("https://api.telegram.org");
-    tes("api.scraperapi.com");
+    tes("api.scraperapi.com?api_key=ad23062b57dbed31858f54691da6511f");
 
 });
 
