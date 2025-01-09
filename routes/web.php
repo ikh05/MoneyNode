@@ -9,6 +9,7 @@ use App\Http\Middleware\CheckClassRoom;
 use App\Http\Controllers\SignController;
 use App\Http\Controllers\TaskNodeController;
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\IcABotTelegramController;
 use App\Http\Controllers\MoneyNodeController;
 
 // Jika pengguna belum login, arahkan ke halaman sign in
@@ -45,6 +46,11 @@ Route::middleware('auth')->group(function(){
         Route::post('/create/record', [MoneyNodeController::class, 'createRecord']);
     });
     // Route::get('/update/task', [TaskNodeController::class, 'logic_updateTask']);
-});
+}
+
+
+Route::post('bot/telegram/', [IcABotTelegramController::class, 'index']);
+
+);
 
 
