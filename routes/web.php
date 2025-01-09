@@ -46,11 +46,8 @@ Route::middleware('auth')->group(function(){
         Route::post('/create/record', [MoneyNodeController::class, 'createRecord']);
     });
     // Route::get('/update/task', [TaskNodeController::class, 'logic_updateTask']);
-}
-
+});
 
 Route::post('bot/telegram/', [IcABotTelegramController::class, 'index']);
-
-);
 
 
