@@ -50,4 +50,24 @@ Route::middleware('auth')->group(function(){
 
 Route::get('bot/telegram/', [IcABotTelegramController::class, 'index']);
 
+Route::get('tes_dns',function(){
+    tes("https://api.telegram.org");
+    tes("api.scraperapi.com");
+
+    function tes($url){
+        $ch = curl_init($url);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($ch, CURLOPT_TIMEOUT, 10); // Set timeout 10 detik
+        $response = curl_exec($ch);
+        $error = curl_error($ch);
+        curl_close($ch);
+    
+        if ($response) {
+            echo "Koneksi ke ".$url." berhasil: " . htmlspecialchars($response);
+        } else {
+            echo "Koneksi ".$url." gagal: " . htmlspecialchars($error);
+        }
+    };
+});
+
 
