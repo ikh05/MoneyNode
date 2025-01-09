@@ -9,6 +9,9 @@ class IcABotTelegramController extends Controller
 {
     // index
     public function index(){
+        // http://api.scraperapi.com?api_key=ad23062b57dbed31858f54691da6511f&url=https://api.telegram.org/bot7315004380:AAFuU6xRnd8rIUWbiqpU4SDlbsGPaqXHXUo/getUpdates&premium=true
+
+        // https://api.telegram.org/bot7315004380:AAFuU6xRnd8rIUWbiqpU4SDlbsGPaqXHXUo/sendMessage
         $token = '7315004380:AAFuU6xRnd8rIUWbiqpU4SDlbsGPaqXHXUo'; // Token bot Anda
         $telegramUrl = "https://api.telegram.org/bot$token/getUpdates";
 
@@ -17,6 +20,7 @@ class IcABotTelegramController extends Controller
         $response = Http::get($scraperApiUrl, [
             'api_key' => 'ad23062b57dbed31858f54691da6511f', // Ganti dengan API Key ScraperAPI Anda
             'url' => $telegramUrl,
+            'premium' => 'true',
         ]);
 
         if ($response->failed()) {
