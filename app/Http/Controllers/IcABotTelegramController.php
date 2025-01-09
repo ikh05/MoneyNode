@@ -11,7 +11,7 @@ use Illuminate\Support\Facades\Http;
 class IcABotTelegramController extends Controller{
     public function index()
     {
-        return Assignment::all();
+        return response()->json(Assignment::all());
     }
 
     // Get a single Assignment
