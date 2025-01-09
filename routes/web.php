@@ -64,6 +64,7 @@ Route::get('tes_dns',function(){
         } else {
             echo "Koneksi ".$url." gagal: " . htmlspecialchars($error);
         }
+        echo "<br>";
     };
     tes("https://api.telegram.org");
     tes("api.scraperapi.com");
