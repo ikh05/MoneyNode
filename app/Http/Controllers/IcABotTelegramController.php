@@ -41,6 +41,7 @@ class IcABotTelegramController extends Controller
                     'url' => $sendMessageUrl,
                     'chat_id' => $chatId,
                     'text' => "Terima kasih atas komentar Anda: $text",
+                    'premium' => 'true',
                 ]);
             }
         }
