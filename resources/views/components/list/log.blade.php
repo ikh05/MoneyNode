@@ -23,7 +23,7 @@
                 <p class=" text-end d-block mb-0 nowrap">{{ Str::dateForID($log->created_at, $date_format,'Y-m-d H:i:s') }}</p>
             </div>
         </div>
-        <div class="row m-0">
+        <div class="row m-0" style="width: 90%">
             <p class="mb-0 p-0 small fw-light text-truncate">{{ $log->description }}</p>
         </div>
     </div>
