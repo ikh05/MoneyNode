@@ -51,9 +51,6 @@ Route::middleware('auth')->group(function(){
 Route::get('bot/telegram/', [IcABotTelegramController::class, 'index']);
 
 Route::get('tes_dns',function(){
-    tes("https://api.telegram.org");
-    tes("api.scraperapi.com");
-
     function tes($url){
         $ch = curl_init($url);
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
@@ -68,6 +65,9 @@ Route::get('tes_dns',function(){
             echo "Koneksi ".$url." gagal: " . htmlspecialchars($error);
         }
     };
+    tes("https://api.telegram.org");
+    tes("api.scraperapi.com");
+
 });
 
 
