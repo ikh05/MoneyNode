@@ -13,7 +13,7 @@ class IcABotTelegramController extends Controller{
 
     // index
     public function index(){
-        return response(request());  
+        return response()->json(['message' => 'Success']);
     }
     
     private function generateResponse($text)
