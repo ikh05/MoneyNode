@@ -9,6 +9,7 @@ use App\Models\TaskNode\ClassRoom;
 use App\Models\TaskNode\TaskRecord;
 use Illuminate\Notifications\Notifiable;
 use App\Models\MoneyNode\Book as MoneyNode_Book;
+use App\Models\TaskNode\Assignment;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 
@@ -98,6 +99,9 @@ class User extends Authenticatable
     }
     public function taskRecords() {
         return $this->hasMany(TaskRecord::class);
+    }
+    public function assignment() {
+        return $this->hasMany(Assignment::class, 'creator_id');
     }
 
 }

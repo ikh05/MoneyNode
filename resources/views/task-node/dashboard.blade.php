@@ -1,7 +1,6 @@
 @extends('layout.root')
 
 @section('content')
-    {{-- User --}}
     <x-user.root  :user=$user />
     <p class="fs-3 fw-bold text-center mt-4 mb-1">Task Node in {{ $classRoom->name }}</p>
     <div class="d-flex gap-1 justify-content-evenly mt-4 mb-3">
@@ -81,10 +80,14 @@
 
 
 
+
+
+
     {{-- model addtugas --}}
     <form action="/TaskNode/create/task" method="POST" class="modal fade" id="modalTugas" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
         @csrf
         <input type="hidden" name="class_room_id" value="{{ $classRoom->id }}">
+        <input type="hidden" name="creator_id" value="{{ Auth::user()->id }}">
         <div class="modal-dialog">
           <div class="modal-content">
             <div class="modal-header">
@@ -129,6 +132,64 @@
               <button type="submit" class="btn btn-primary">Tambah</button>
             </div>
           </div>
+        </div>
+    </form>
+
+
+
+
+
+
+    
+{{-- Modal Delete --}}
+    <form action="/TaskNode/delete/assignment" method="POST" class="modal fade" id="modalDelete" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        @csrf
+        <input type="hidden" name="class_room_id" value="{{ $classRoom->id }}">
+        <input type="hidden" name="creator_id" value="{{ Auth::user()->id }}">
+        <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+            <h1 class="modal-title fs-5" id="exampleModalLabel">Delete Tugas</h1>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div class="form-floating mb-2">
+                    <input required type="text" name="title" list="titles" id="title" class="form-control" placeholder="Judul Tugas" autocomplete="off">
+                    <label for="title">* Judul Tugas</label>
+                    <datalist id="titles">
+                        @foreach ($title as $t)
+                            <option value="{{ $t }}">
+                        @endforeach
+                    </datalist>
+                </div>
+                <div class="form-floating mb-2">
+                    <input type="text" name="description" id="description" class="form-control" placeholder="Gambaran Tugas" autocomplete="off">
+                    <label for="description">Gambaran Tugas</label>
+                </div>
+                <div class="input-group mb-2">
+                    {{-- label di click akan memunculkan pilih tanggal --}}
+                    <label label="date-none" for="due_date" class="btn btn-secondary">Deadline</label>
+                    <input type="date" name="due_date" id="due_date" class="form-control" placeholder="Gambaran Tugas">
+                </div>
+                <div class="form-floating mb-2">
+                    <input name="category" required list="categories" id="category" class="form-control" placeholder="Select or Enter a Category" autocomplete="off">
+                    <label for="category">* Mapel/Matkul</label>
+                    <datalist id="categories">
+                        @foreach ($categories as $c)
+                            <option value="{{ $c }}">
+                        @endforeach
+                    </datalist>
+                </div>
+                <div class="form-check form-switch mb-2">
+                    <input class="form-check-input" type="checkbox" role="switch" id="is_group" name="is_group">
+                    <label class="form-check-label" for="is_group">Ini tugas Kelompok</label>
+                </div>
+                <p class="small fw-light text-danger-emphasis">* Wajib diisi</p>
+            </div>
+            <div class="modal-footer">
+            <button type="submit" class="btn btn-primary">Tambah</button>
+            </div>
+        </div>
         </div>
     </form>
 @endsection

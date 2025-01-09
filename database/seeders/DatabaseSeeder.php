@@ -55,7 +55,7 @@ class DatabaseSeeder extends Seeder
         $user = User::create([
             'username' => 'Ikhsan',
             'name' => 'ikhsan',
-            'is_admin' => true,
+            'tier' => 'super_admin',
             'password' => password_hash($password, PASSWORD_BCRYPT),
         ]);
 

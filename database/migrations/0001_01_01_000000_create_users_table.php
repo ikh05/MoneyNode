@@ -20,7 +20,7 @@ return new class extends Migration
             $table->string('email')->unique()->nullable();
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
-            $table->boolean('is_admin')->default(False);
+            $table->enum('tier', ['user', 'admin', 'super_admin'])->default('user');
             $table->boolean('skip_log')->default(False);
             $table->rememberToken();
             $table->timestamps();

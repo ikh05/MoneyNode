@@ -2,8 +2,10 @@
 
 namespace App\Models\TaskNode;
 
+use App\Models\User;
 use App\Models\TaskNode\ClassRoom;
 use App\Models\TaskNode\TaskRecord;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Database\Eloquent\Model;
 
 class Assignment extends Model {
@@ -13,7 +15,6 @@ class Assignment extends Model {
     protected $guarded = ['id'];
 
     protected static function booted(){
-
         static::creating(function ($assignment){
         });
         static::created(function ($assignment) {
@@ -40,5 +41,13 @@ class Assignment extends Model {
     public function records(){
         return $this->hasMany(TaskRecord::class);
     }
+    public function recordById($id = null){
+        $id = ($id === null) ? Auth::user()->id : $id;
+        return $this->hasMany(TaskRecord::class)->where('user_id', $id);
+    }
     
+    // Relasi ke User (One to Many invers)
+    public function creator(){
+        return $this->belongsTo(User::class, 'creator_id');
+    }
 }

@@ -1,15 +1,15 @@
 <?php
 
-
+use Illuminate\Support\Facades\Route;
 
 use App\Http\Middleware\SuperAdmin;
-use Illuminate\Support\Facades\Route;
+use App\Http\Middleware\checkReqAjax;
 use App\Http\Middleware\CheckClassRoom;
+
 use App\Http\Controllers\SignController;
 use App\Http\Controllers\TaskNodeController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\MoneyNodeController;
-use SebastianBergmann\CodeCoverage\Report\Html\Dashboard;
 
 // Jika pengguna belum login, arahkan ke halaman sign in
 Route::middleware('guest')->group(function(){
@@ -29,11 +29,13 @@ Route::middleware('auth')->group(function(){
 
     // TaskNode
     Route::prefix('TaskNode')->group(function(){
-        Route::get('/', [TaskNodeController::class, 'index'])->middleware(CheckClassRoom::class);
+        Route::get('/', [TaskNodeController::class, 'index'])->middleware(CheckClassRoom::class)->name('TaskNode');
         Route::get('/create/classroom', [TaskNodeController::class, 'createClassRoom'])->name('create_ClassRoom');
         Route::post('/create/classroom', [TaskNodeController::class, 'logic_createClassRoom']);
         Route::get('/create/task', function(){return view('tes', ['data' => request()]);});
         Route::post('/create/task', [TaskNodeController::class, 'logic_createTask']);
+        Route::post('/update/task', [TaskNodeController::class, 'logic_updateTask'])->name('tn_update-record');
+        Route::delete('/delete/task/{id}', [TaskNodeController::class, 'logic_delete'])->name('assignment.delete');
     });
     
     // MoneyNode
@@ -42,7 +44,7 @@ Route::middleware('auth')->group(function(){
         Route::get('/account', [MoneyNodeController::class, 'account']);
         Route::post('/create/record', [MoneyNodeController::class, 'createRecord']);
     });
-    
+    // Route::get('/update/task', [TaskNodeController::class, 'logic_updateTask']);
 });
 
 

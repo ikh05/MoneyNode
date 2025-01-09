@@ -1,4 +1,4 @@
-console.log('file function.js sudah load 1.7.4');
+console.log('file function.js sudah load 1.7.5');
 
 
 function toggleClass(element, nameClass){
@@ -31,6 +31,30 @@ function stringToDOM(element){
     return typeof element === 'string' ? document.querySelector(element) : element;
 }
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 let ret = '';
 // Fungsi yang dijalankan setelah change
 document.addEventListener('change', function(e){
@@ -44,6 +68,53 @@ window.addEventListener('resize', function(){
 });
 // Fungsi yang dijalankan setelah di LOAD
 document.addEventListener('DOMContentLoaded', function(e){
+    // 
+    const deleteButtons = document.querySelectorAll('.form-delete .btn-delete');
+
+        deleteButtons.forEach(button => {
+            button.addEventListener('click', function () {
+                const form = this.closest('.form-delete');
+                if (confirm(button.getAttribute('teks-confirm'))) {
+                    form.submit();
+                }
+            });
+        });
+
+
+    // ajax
+    const ajaxElements = Array.from(document.querySelectorAll('.ajax'));
+    ajaxElements.forEach(ajax => {
+        ajax.addEventListener('click', async function(e){
+            e.preventDefault;
+
+            const attributes = Array.from(this.attributes)
+                .filter(attr => attr.name.startsWith('ajax-'))
+                .reduce((obj, attr) => {
+                    obj[attr.name.replace('ajax-', '')] = attr.value;
+                    return obj;
+                }, {});
+            console.log({ tasks: [attributes] });
+            
+            try {
+                // Kirim permintaan AJAX dengan Fetch API
+                const response = await fetch(this.getAttribute('url'), {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'X-CSRF-TOKEN': document.querySelector('[name=_token]').value,
+                    },
+                    body: JSON.stringify({ tasks: [attributes] }) // Kirim sebagai array
+                });
+                const data = await response.json();
+                alert('Status tugas berhasil di perbarui');
+                console.log(data);
+            }catch (error) {
+                console.error('Error in AJAX Request:', error);
+                alert('Proses gagal');
+            }
+        })
+    })
+
     // filter
     // Tambahkan event listener ke semua elemen dengan atribut `filtertarget`
     const filterElements = document.querySelectorAll('[target-filter]');
@@ -120,6 +191,7 @@ document.addEventListener('DOMContentLoaded', function(e){
     // dropdown
     const dropdown = document.querySelectorAll('.dropdown-item');
     [...dropdown].forEach(dropdown => {
+        if(dropdown.classList.change('dropdown-normal')) return;
         dropdown.addEventListener('click', function(d){
             // d pasti dropdown-item
             d = d.target
@@ -148,6 +220,30 @@ document.addEventListener('DOMContentLoaded', function(e){
         })
     });
 })
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 // Fungsi Khusus 

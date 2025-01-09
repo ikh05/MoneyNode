@@ -3,7 +3,18 @@
         {{-- identitas --}}
         <p class="mb-0">Atur Hidupmu di Sini!</p>
         <h1 class="mb-0 fw-bold">{{ Str::title($user->name) }}</h1>
-        <p class="mb-0 ms-1 small"><i class="fa-regular fa-user{{ $user->is_admin ? '-crown' : '' }}"></i> {{ '@'.$user->username }}</p>
+        <p class="mb-0 ms-1 small">
+            @if ($user->tier === 'super_admin')
+                <i class="fa-regular fa-user-crown"></i>
+            @elseif($user->tier === 'admin')
+                <i class="fa-regular fa-user-tie"></i>
+            @elseif($user->tier === 'user')
+                <i class="fa-regular fa-user"></i>
+            @else
+                <i class="fa-solid fa-question"></i>              
+            @endif
+            {{ '@'.$user->username }}
+        </p>
     </div>
     <div class="flex-shrink-0">
         {{-- gambar --}}

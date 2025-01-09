@@ -28,7 +28,8 @@ return new class extends Migration
             $table->string('category')->nullable(); // Kategori tugas
             $table->boolean('is_group')->default(false); //Apakah tugas merupakan tugas kelompok atau tidak
             $table->text('description')->nullable(); // Deskripsi tugas
-            $table->foreignId('class_room_id')->constrained('tn_classroom')->onDelete('cascade'); // Relasi ke kelas (course)
+            $table->foreignId('class_room_id')->constrained('tn_classroom')->onDelete('cascade'); // Relasi ke classroom
+            $table->foreignId('creator_id')->constrained('users'); //Relasi ke user (new) 
             $table->timestamp('due_date')->nullable(); // Tanggal batas waktu tugas
             $table->timestamps(); // Waktu pembuatan dan pembaruan
         });
