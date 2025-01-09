@@ -12,8 +12,8 @@ class IcABotTelegramController extends Controller{
 
 
     // index
-    public function index(Request $request){
-        return response(['a']);  
+    public function index(){
+        return response(request());  
     }
     
     private function generateResponse($text)
