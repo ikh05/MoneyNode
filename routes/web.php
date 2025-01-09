@@ -59,11 +59,8 @@ Route::get('tes_dns',function(){
         $error = curl_error($ch);
         curl_close($ch);
     
-        if ($response) {
-            echo "Koneksi ke ".$url." berhasil: " . htmlspecialchars($response);
-        } else {
-            echo "Koneksi ".$url." gagal: " . htmlspecialchars($error);
-        }
+        echo "Koneksi ke ".$url." berhasil: " . htmlspecialchars($response);
+        echo "Koneksi ".$url." gagal: " . htmlspecialchars($error);
         echo "<br>";
     };
     tes("https://api.telegram.org");
