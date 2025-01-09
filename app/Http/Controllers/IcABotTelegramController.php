@@ -6,6 +6,8 @@ use Illuminate\Http\Request;
 use App\Models\TaskNode\Assignment;
 use Illuminate\Support\Facades\Http;
 
+    // http://api.scraperapi.com?api_key=ad23062b57dbed31858f54691da6511f&url=https://ica.free.nf/bot/telegram
+
 class IcABotTelegramController extends Controller{
     public function index()
     {

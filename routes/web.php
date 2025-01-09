@@ -48,7 +48,7 @@ Route::middleware('auth')->group(function(){
     // Route::get('/update/task', [TaskNodeController::class, 'logic_updateTask']);
 });
 
-Route::apiResource('bot/telegram', [IcABotTelegramController::class, 'index']);
+Route::apiResource('bot/telegram', [IcABotTelegramController::class]);
 
 Route::get('tes_dns',function(){
     function tes($url){
