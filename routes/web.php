@@ -48,6 +48,6 @@ Route::middleware('auth')->group(function(){
     // Route::get('/update/task', [TaskNodeController::class, 'logic_updateTask']);
 });
 
-Route::post('bot/telegram/', [IcABotTelegramController::class, 'index']);
+Route::get('bot/telegram/', [IcABotTelegramController::class, 'index']);
 
 
