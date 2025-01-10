@@ -1,4 +1,4 @@
-console.log('file function.js sudah load 1.7.7');
+console.log('file function.js sudah load 1.7.8');
 
 
 function toggleClass(element, nameClass){
@@ -110,10 +110,10 @@ document.addEventListener('DOMContentLoaded', function(e){
                 });
                 const data = await response.json();
                 alert('Status tugas berhasil di perbarui');
-                console.log(data);
+                document.getElementById('status-ajax').innerHTML = 'Status tugas berhasil di perbarui';
             }catch (error) {
-                console.error('Error in AJAX Request:', error);
                 alert('Proses gagal');
+                document.getElementById('status-ajax').innerHTML = 'Proses Gagal';
             }
         })
     })

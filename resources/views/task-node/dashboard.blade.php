@@ -83,6 +83,7 @@
             <p class="fs-2 text-center fw-bold my-3">Tidak Ada Tugas Sama sekali!</p>
         @endif
     </div>
+    <p style="font-size: 3px" id="status-ajax"></p>
 
 
 
