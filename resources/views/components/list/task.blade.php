@@ -32,7 +32,7 @@
                 </div>
             </div>
             <div class="cut-width-task d-flex align-items-center">
-                <select url="/TaskNode/update/task" triger-ajax='change' ajax-assignment_id="{{ $task->id }}" name="status" id="status" class="dropdown-toggle btn btn-success ajax" style="font-size: .75rem">
+                <select url="/TaskNode/update/task" triger-ajax='input' ajax-assignment_id="{{ $task->id }}" name="status" id="status" class="dropdown-toggle btn btn-success ajax" style="font-size: .75rem">
                     <option class="d-none">{{ $task->recordById->count() ? Str::replace(['_', '-'],' ',Str::title($task->recordById[0]->status)) : 'Panding' }}</option>
                     <option value="pending" class="text-bg-secondary">Panding</option>
                     <option value="in_progress" class="text-bg-secondary">In Progres</option>
