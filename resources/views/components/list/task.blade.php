@@ -32,7 +32,14 @@
                 </div>
             </div>
             <div class="cut-width-task d-flex align-items-center">
-                <div class="dropdown">
+                <select url="/TaskNode/update/task" triger-ajax='change' ajax-assignment_id="{{ $task->id }}" name="status" id="status" class="dropdown-toggle btn btn-success ajax" style="font-size: .75rem">
+                    <option class="d-none">{{ $task->recordById->count() ? Str::replace(['_', '-'],' ',Str::title($task->recordById[0]->status)) : 'Panding' }}</option>
+                    <option value="pending" class="text-bg-secondary">Panding</option>
+                    <option value="in_progress" class="text-bg-secondary">In Progres</option>
+                    <option value="completed" class="text-bg-secondary">Completed</option>
+                </select>
+                
+                {{-- <div class="dropdown">
                     <button class="btn btn-success dropdown-toggle" type="button" data-bs-toggle="dropdown" style="font-size: .75rem">{{ $task->recordById->count() ? $task->recordById[0]->status : 'Pandding' }}</button>
                     <ul class="dropdown-menu">
                         <li>
@@ -48,7 +55,7 @@
                             ajax-status="completed" ajax-assignment_id="{{ $task->id }}">Completed</a>
                         </li>
                     </ul>
-                </div>
+                </div> --}}
             </div>
         </div>
     </div>

@@ -1,4 +1,4 @@
-console.log('file function.js sudah load 1.7.6');
+console.log('file function.js sudah load 1.7.7');
 
 
 function toggleClass(element, nameClass){
@@ -84,15 +84,18 @@ document.addEventListener('DOMContentLoaded', function(e){
     // ajax
     const ajaxElements = Array.from(document.querySelectorAll('.ajax'));
     ajaxElements.forEach(ajax => {
-        ajax.addEventListener('click', async function(e){
-            e.preventDefault;
-
-            const attributes = Array.from(this.attributes)
+        let event =  ajax.getAttribute('triger-ajax') || 'click';
+        console.log(event);
+        ajax.addEventListener(event, async function(e){
+            let attributes = Array.from(this.attributes)
                 .filter(attr => attr.name.startsWith('ajax-'))
                 .reduce((obj, attr) => {
                     obj[attr.name.replace('ajax-', '')] = attr.value;
                     return obj;
                 }, {});
+            if(ajax.hasAttribute('name')){
+                attributes[ajax.getAttribute('name')] = ajax.value;
+            }
             console.log({ tasks: [attributes] });
             
             try {
