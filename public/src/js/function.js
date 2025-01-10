@@ -1,4 +1,4 @@
-console.log('file function.js sudah load 1.7.5');
+console.log('file function.js sudah load 1.7.6');
 
 
 function toggleClass(element, nameClass){
@@ -120,11 +120,16 @@ document.addEventListener('DOMContentLoaded', function(e){
     const filterElements = document.querySelectorAll('[target-filter]');
     filterElements.forEach(filterElement => {
         const inputs = filterElement.querySelectorAll('input, select, textarea');
-
         inputs.forEach(input => {
             // Trigger filter saat ada perubahan input
-            input.addEventListener('input', () => applyFilter(filterElement));
-            input.addEventListener('change', () => applyFilter(filterElement));
+            input.addEventListener('input', () => {
+                applyFilter(filterElement); 
+                cutWidth();
+            });
+            input.addEventListener('change', () => {
+                applyFilter(filterElement); 
+                cutWidth();
+            });
         });
     });
     
@@ -290,6 +295,11 @@ function cutWidth(){
         })
     }
 }
+
+
+
+
+
 // Fungsi utama untuk memfilter elemen berdasarkan elemen dengan `filtertarget`
 function applyFilter(filterElement) {
 
@@ -310,6 +320,17 @@ function applyFilter(filterElement) {
                 if(filter.value !== '' && list.hasAttribute(filter.getAttribute('name'))){
                     let list_value = list.getAttribute(filter.getAttribute('name'));
                     if(!list_value.includes(filter.value)) list.classList.add('d-none');
+                }
+            }else{
+                switch (filter.getAttribute('special')) {
+                    case 'sort':
+                        console.log(targetElement.querySelector('ul'));
+                        
+                        // urutkan berdasarkan apa. dan caranya membaat element baru, dan di masukkan kedalam targetElement
+                        // untuk sekarang cuman 
+                        if(filter.value === 'desc') targetElement.querySelector('ul').classList.add('flex-column-reverse');
+                        else if(filter.value === 'lat') targetElement.querySelector('ul').classList.remove('flex-column-reverse');
+                        break;
                 }
             }
         });

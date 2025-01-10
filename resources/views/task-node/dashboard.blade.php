@@ -6,13 +6,20 @@
     <div class="d-flex gap-1 justify-content-evenly mt-4 mb-3">
         {{-- Daftar App --}}
         {{-- yang muncul hanya 4 jika lebih yang lain akan di masukkan kedalam hidden  --}}
-        <div class="text-center">
-            <a href='#' class="btn btn-secondary disabled"><i class="fs-3 fa-screen-users fa-solid fa-doutone"></i></a>
-            <p class="small text-secondary mb-0 fw-bold">Kelas</p>
+        <div class="text-center dropdown">
+            <button type="button" data-bs-toggle="dropdown" class="btn btn-secondary"><i class="fs-3 fa-screen-users fa-solid fa-doutone"></i></button>
+            <p class="small mb-0 fw-bold">Kelas</p>
+            <ul class="dropdown-menu dropdown-normal">
+                <li><a class="dropdown-item" href="/TaskNode/create/classroom">Buat / Bergabung</a></li>
+                <li class="dropdown-divider"></li>
+                @foreach ($classRooms as $c)
+                    <li><a class="dropdown-item {{ $classRoom->id === $c->id ? 'active' : '' }}" href="/TaskNode{{$classRoom->id === $c->id ? '#' : '?codeClass='.$c->code }}">{{ $c->name }}</a></li>
+                @endforeach
+            </ul>
         </div>
         <div class="text-center">
-            <a href='#' class="btn btn-secondary disabled"><i class="fs-3 fa-duotone fa-solid fa-person-to-door"></i></a>
-            <p class="small text-secondary mb-0 fw-bold">Keluar</p>
+            <a href='/TaskNode/exit/classroom/{{ $classRoom->id }}' class="btn btn-secondary"><i class="fs-3 fa-duotone fa-solid fa-person-to-door"></i></a>
+            <p class="small mb-0 fw-bold">Keluar</p>
         </div>
         <div class="text-center">
             <a href='#' class="btn btn-secondary" data-bs-toggle="modal" data-bs-target="#modalTugas"><i class="fs-3 fa-list-check fa-solid fa-doutone"></i></a>
@@ -53,7 +60,7 @@
             <div class="col-6">
                 <div class="input-group">
                     <label class="my-auto text-secondary-emphasis " for="type_sort" style="font-size: .75rem">Sort by</label>
-                    <select name="mapel/matkul" id="type_sort" class="rounded form-select border-0 bg-transparent" style="font-size: .75rem">
+                    <select name="mapel/matkul" id="type_sort" class="rounded form-select border-0 bg-transparent" special="sort" style="font-size: .75rem">
                         <option value='lat' class="text-bg-dark" style="font-size: 1rem">Lates</option>
                         <option value='desc' class="text-bg-dark" style="font-size: 1rem">Descending</option>
                     </select>
@@ -66,7 +73,7 @@
     {{-- @dd($icon->random()) --}}
     <div id="task" class="container p-0">
         @if ($assignments->count() > 0)
-            <ul class="list-group w-100 list-group-flush">
+            <ul class="list-group w-100 list-group-flush d-flex flex-column">
                 @foreach ($assignments as $task)
                     <x-list.task :task=$task icon="{{ $icon->random() }}"/>
                 @endforeach

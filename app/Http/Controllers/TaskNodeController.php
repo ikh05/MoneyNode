@@ -23,7 +23,8 @@ class TaskNodeController extends Controller{
     // VIEW
     public function index(Request $request){
         $user = Auth::user();
-        $classRoom = $user->classRooms()->filter(['code' => $request['codeClass']])->get()->first();
+        $classRooms = $user->classRooms;
+        $classRoom = $classRooms->toQuery()->filter(['code' => $request['codeClass']])->get()->first();
 
         // tampilkan halaman error bahwa classroom tidak di temukan
         if($classRoom === null) abort(400, 'Classroom yang anda cari tidak ada!');
@@ -33,6 +34,7 @@ class TaskNodeController extends Controller{
         return view('task-node.dashboard', [
             'user' => $user,
             'classRoom' => $classRoom,
+            'classRooms' => $classRooms,
             'categories' => $assignments->groupBy('category')->keys(),
             'title' => $assignments->groupBy('title')->keys(),
             'icon' => collect(Icon::$iconFontAwesome['solid']),
@@ -75,7 +77,7 @@ class TaskNodeController extends Controller{
                 'model' => 'TaskNode(Classroom)',
                 'action' => 'join',
                 'data' => [
-                    'after' => $classRoom->toArray(),
+                    'after' => $classRoom,
                 ],
             ]);
         }else{
@@ -93,7 +95,7 @@ class TaskNodeController extends Controller{
                 'model' => 'TaskNode(Classroom)',
                 'action' => 'create',
                 'data' => [
-                    'after' => $classRoom->toArray(),
+                    'after' => $classRoom,
                 ],
             ]);
         }
@@ -189,5 +191,44 @@ class TaskNodeController extends Controller{
         request()->session()->regenerate();
 
         return redirect()->back()->with('success', 'Tugas berhasil anda hapus!.');
+    }
+    public function logic_exitClassRoom($class_room_id){
+        // Pastikan user sudah login
+        $user = Auth::user();
+
+        if (!$user) {
+            return response()->json([
+                'message' => 'User must be logged in to leave a classroom.'
+            ], 403);
+        }
+
+        // Cari kelas berdasarkan ID
+        $classroom = ClassRoom::find($class_room_id);
+
+        if (!$classroom) {
+            return response()->json([
+                'message' => 'Classroom not found.'
+            ], 404);
+        }
+
+        // Pastikan user adalah anggota kelas sebelum menghapus relasi
+        if (!$classroom->users->contains($user->id)) {
+            return response()->json([
+                'message' => 'You are not a member of this classroom.'
+            ], 403);
+        }
+
+        // Hapus relasi user dengan kelas
+        $classroom->users()->detach($user->id);
+
+        // Jika tidak ada user yang tersisa di kelas, hapus kelas
+        if ($classroom->users()->count() === 0) {
+            $classroom->delete();
+        }
+
+        return response()->json([
+            'message' => 'Successfully left the classroom.'
+        ]);
+
     }
 }

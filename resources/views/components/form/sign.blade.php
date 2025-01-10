@@ -15,7 +15,7 @@
                             </div>
                         </div>
                     </div>
-                    <div class="mb-3">
+                    <div class="mb-2">
                         <div class="input-group">
                             <div class="form-floating">
                                 <input name="password" type="password" class="form-control  @if (old('sign') === 'in') @error('password') {{ 'is-invalid' }} @enderror @endif" id="signin-password" required placeholder="password">
@@ -27,6 +27,12 @@
                             </button>
                         </div>
                     </div>
+                    {{-- <div class="form-check mb-4 small">
+                        <input class="form-check-input" type="checkbox" name="rememberme" id="signin_rememberme">
+                        <label class="form-check-label" for="signin_rememberme">
+                          Tolong ingat saya
+                        </label>
+                    </div> --}}
                     <div class="w-100 btn-group">
                         <button type="button" onclick="toggleClass('.card-flip', 'flip-active')" class="btn btn-outline-info">Sign Up</button>
                         <button type="submit" class="btn btn-info">Submit</button>
@@ -58,15 +64,7 @@
                             </div>
                         </div>
                     </div>
-                    {{-- <div class="mb-3">
-                        <div class="input-group">
-                            <div class="form-floating">
-                                <input name="email" type="email" class="form-control @if (old('sign') === 'up') @error('email') {{ 'is-invalid' }} @enderror @endif" id="signup-email" required placeholder="email" value="@if (old('sign')==='up') {{ old('email') }}  @endif">
-                                <label for="signup-email" class="form-label">Email</label>
-                            </div>
-                        </div>
-                    </div> --}}
-                    <div class="mb-3">
+                    <div class="mb-2">
                         <div class="input-group">
                             <div class="form-floating">
                                 <input name="password" type="password" class="form-control @if (old('sign') === 'up') @error('password') {{ 'is-invalid' }} @enderror @endif" id="signup-password" required placeholder="password">
@@ -78,6 +76,12 @@
                             </button>
                         </div>
                     </div>
+                    {{-- <div class="form-check mb-4 small">
+                        <input class="form-check-input" type="checkbox" name="rememberme" id="signup_rememberme">
+                        <label class="form-check-label" for="signup_rememberme">
+                          Tolong ingat saya
+                        </label>
+                    </div> --}}
                     <div class="w-100 btn-group">
                         <button type="button" onclick="toggleClass('.card-flip', 'flip-active')" class="btn btn-outline-info">Sign In</button>
                         <button type="submit" class="btn btn-info">Submit</button>

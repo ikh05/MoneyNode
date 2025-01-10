@@ -15,7 +15,7 @@ class SignController extends Controller{
         // Simpan URL sebelumnya dalam session, kecuali rute login sendiri
         session(['previous_url' => url()->previous()]);
         return view('login');
-    }
+}
 
     public function sign(Request $request){
         switch ($request['sign']) {
@@ -52,19 +52,20 @@ class SignController extends Controller{
             'username' => 'required',
             'password' => 'required',
         ]);
-
-        if (Auth::attempt($credentials)) {
+        $remember = $request['rememberme'] === 'on' ? true : false;
+        // dd($remember);
+        if (Auth::attempt($credentials, $remember)) {
             // Ambil URL sebelumnya dari session
-            $previousUrl = session('previous_url', '/'); // Default ke '/'
+            // $previousUrl = session('previous_url', '/'); // Default ke '/'
             $request->session()->regenerate();
         
-            // Cek apakah berasal dari halaman login
-            if ($previousUrl === url('/login')) {
-                return redirect('/'); // Arahkan ke dashboard atau halaman utama
-            }
+            // // Cek apakah berasal dari halaman login
+            // if ($previousUrl === url('/login')) {
+            //     return redirect('/'); // Arahkan ke dashboard atau halaman utama
+            // }
 
             // Redirect ke halaman sebelumnya
-            return redirect($previousUrl);
+            return redirect('/');
         }
         return back()->with('message', 'gagal login');
     }

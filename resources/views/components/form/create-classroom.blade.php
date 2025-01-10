@@ -37,35 +37,15 @@
                     @csrf
                     <input type="hidden" value="join" name="form">
                     <div class="mb-3">
-                        <div class="input-group">
-                            
-                            <div class="btn-group w-100 h-100">
-                                <input type="hidden" name="code" value="">
-                                <button class="w-100 h-100 btn btn-outline-secondary fs-4 border-1 rounded-2" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                    <p class="fs-6 m-0 p-0">Classroom Code</p>
-                                </button>
-                                <x-form.dropdown.menu title='Classroom Code'>
-                                    @foreach ($allClassRoom as $classroom)
-                                        <li class="dropdown-item w-100" value="{{ $classroom->code }}">
-                                            <div class="row">
-                                                <div class="col-4 align-items-center d-flex">
-                                                    <div class="innerHTML">
-                                                        <p class="p-0 m-0 fs-6 label small">{{ $classroom->name }}</p>
-                                                    </div>
-                                                </div>
-                                                <div class="col-8 text-end">
-                                                    <p class="m-0 p-0 fs-6">{{ $classroom->countUser() }}</p>
-                                                    <p class="saldo m-0 p-0 small">{{ $classroom->creator->username }}</p>
-                                                </div>
-                                            </div>    
-                                        </li>
-                                    @endforeach
-                                </x-form.dropdown.menu>
-                            </div>
-                        </div>
+                        <select name="code" id="code_class" class="form-select">
+                            <option class="d-none">Classroom</option>
+                            @foreach ($allClassRoom as $classroom)
+                                <option value="{{ $classroom->code }}">{{ $classroom->name }}</option>
+                            @endforeach
+                        </select>
                     </div>
                     <div class="w-100 btn-group">
-                        <button type="button" onclick="toggleClass('.card-flip', 'flip-active')" class="btn btn-outline-info">Sing In</button>
+                        <button type="button" onclick="toggleClass('.card-flip', 'flip-active')" class="btn btn-outline-info">Create</button>
                         <button type="submit" class="btn btn-info">Submit</button>
                     </div>
                 </form>

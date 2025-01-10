@@ -5,6 +5,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Middleware\SuperAdmin;
 use App\Http\Middleware\checkReqAjax;
 use App\Http\Middleware\CheckClassRoom;
+use App\Http\Middleware\AuthAndRemember;
 
 use App\Http\Controllers\SignController;
 use App\Http\Controllers\TaskNodeController;
@@ -33,6 +34,7 @@ Route::middleware('auth')->group(function(){
         Route::get('/', [TaskNodeController::class, 'index'])->middleware(CheckClassRoom::class)->name('TaskNode');
         Route::get('/create/classroom', [TaskNodeController::class, 'createClassRoom'])->name('create_ClassRoom');
         Route::post('/create/classroom', [TaskNodeController::class, 'logic_createClassRoom']);
+        Route::get('/exit/classroom/{id}', [TaskNodeController::class, 'logic_exitClassRoom']);
         Route::get('/create/task', function(){return view('tes', ['data' => request()]);});
         Route::post('/create/task', [TaskNodeController::class, 'logic_createTask']);
         Route::post('/update/task', [TaskNodeController::class, 'logic_updateTask'])->name('tn_update-record');
@@ -47,25 +49,3 @@ Route::middleware('auth')->group(function(){
     });
     // Route::get('/update/task', [TaskNodeController::class, 'logic_updateTask']);
 });
-
-Route::apiResource('bot/telegram', IcABotTelegramController::class);
-
-Route::get('tes_dns',function(){
-    function tes($url){
-        $ch = curl_init($url);
-        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-        curl_setopt($ch, CURLOPT_TIMEOUT, 10); // Set timeout 10 detik
-        $response = curl_exec($ch);
-        $error = curl_error($ch);
-        curl_close($ch);
-    
-        echo "Koneksi ke ".$url." berhasil: " . htmlspecialchars($response);
-        echo "Koneksi ".$url." gagal: " . htmlspecialchars($error);
-        echo "<br>";
-    };
-    tes("https://api.telegram.org");
-    tes("api.scraperapi.com?api_key=ad23062b57dbed31858f54691da6511f");
-
-});
-
-
