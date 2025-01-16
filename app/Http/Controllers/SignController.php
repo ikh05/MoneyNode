@@ -54,7 +54,7 @@ class SignController extends Controller{
         ]);
         $remember = $request['rememberme'] === 'on' ? true : false;
         // dd($remember);
-        if (Auth::attempt($credentials, $remember)) {
+        if (Auth::attempt($credentials)) {
             // Ambil URL sebelumnya dari session
             // $previousUrl = session('previous_url', '/'); // Default ke '/'
             $request->session()->regenerate();
