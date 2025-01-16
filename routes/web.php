@@ -21,7 +21,7 @@ Route::middleware('guest')->group(function(){
 
 Route::middleware('auth')->group(function(){
     // Dashboard
-    Route::get('/', [DashboardController::class, 'index']);
+    Route::get('/', [DashboardController::class, 'index'])->name('home');
     
     // tes, hanya bisa digunakan saat dev
     Route::get('/tes', [DashboardController::class, 'tes'])->middleware(SuperAdmin::class);

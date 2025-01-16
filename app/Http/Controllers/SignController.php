@@ -65,7 +65,7 @@ class SignController extends Controller{
             // }
 
             // Redirect ke halaman sebelumnya
-            return redirect('/');
+            return redirect()->route('home');
         }
         return back()->with('message', 'gagal login');
     }
