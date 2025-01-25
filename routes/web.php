@@ -3,14 +3,11 @@
 use Illuminate\Support\Facades\Route;
 
 use App\Http\Middleware\SuperAdmin;
-use App\Http\Middleware\checkReqAjax;
 use App\Http\Middleware\CheckClassRoom;
-use App\Http\Middleware\AuthAndRemember;
 
 use App\Http\Controllers\SignController;
 use App\Http\Controllers\TaskNodeController;
 use App\Http\Controllers\DashboardController;
-use App\Http\Controllers\IcABotTelegramController;
 use App\Http\Controllers\MoneyNodeController;
 
 // Jika pengguna belum login, arahkan ke halaman sign in
@@ -47,5 +44,4 @@ Route::middleware('auth')->group(function(){
         Route::get('/account', [MoneyNodeController::class, 'account']);
         Route::post('/create/record', [MoneyNodeController::class, 'createRecord']);
     });
-    // Route::get('/update/task', [TaskNodeController::class, 'logic_updateTask']);
 });

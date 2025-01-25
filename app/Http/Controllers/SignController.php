@@ -32,7 +32,7 @@ class SignController extends Controller{
         Auth::logout();
         request()->session()->invalidate();
         request()->session()->regenerateToken();
-        return redirect('/sign');
+        return redirect()->route('login');
     }
 
     private function register(Request $request){
@@ -43,7 +43,7 @@ class SignController extends Controller{
         ]);
         
         $validatedData['password'] = bcrypt($validatedData['password']);
-        $user = User::create($validatedData);
+        User::create($validatedData);
         return $this->login($request);
     }
 
@@ -53,18 +53,8 @@ class SignController extends Controller{
             'password' => 'required',
         ]);
         $remember = $request['rememberme'] === 'on' ? true : false;
-        // dd($remember);
         if (Auth::attempt($credentials)) {
-            // Ambil URL sebelumnya dari session
-            // $previousUrl = session('previous_url', '/'); // Default ke '/'
             $request->session()->regenerate();
-        
-            // // Cek apakah berasal dari halaman login
-            // if ($previousUrl === url('/login')) {
-            //     return redirect('/'); // Arahkan ke dashboard atau halaman utama
-            // }
-
-            // Redirect ke halaman sebelumnya
             return redirect()->route('home');
         }
         return back()->with('message', 'gagal login');
