@@ -47,10 +47,9 @@ class SignController extends Controller{
 
     private function login(Request $request){
         $credentials = $request->validate([
-            'username' => 'required',
-            'password' => 'required',
+            'username' => 'required|max:255',
+            'password' => 'required|max:255',
         ]);
-        $remember = $request['rememberme'] === 'on' ? true : false;
         if (Auth::attempt($credentials)) {
             $request->session()->regenerate();
             return redirect()->route('home');

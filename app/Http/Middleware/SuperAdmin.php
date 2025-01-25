@@ -18,7 +18,7 @@ class SuperAdmin
     {
         $user = Auth::user();
         if($user->tier !== 'super_admin'){
-            return redirect('/');
+            return redirect()->route('home');
         }
         return $next($request);
     }
