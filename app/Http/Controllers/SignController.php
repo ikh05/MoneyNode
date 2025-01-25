@@ -16,13 +16,17 @@ class SignController extends Controller{
     }
 
     public function sign(Request $request){
-        switch ($request['sign']) {
-            case 'up':
-                return $this->register($request);
-            case 'in':
-                return $this->login($request);
-            default:
-                return $this->index();
+        if(!Auth::user()){
+            switch ($request['sign']) {
+                case 'up':
+                    return $this->register($request);
+                case 'in':
+                    return $this->login($request);
+                default:
+                    return $this->index();
+            }
+        }else{
+            redirect()->route('home');
         }
     }
 
