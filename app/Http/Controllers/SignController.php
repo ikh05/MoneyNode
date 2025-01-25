@@ -12,10 +12,8 @@ use Illuminate\Validation\ValidationException;
 
 class SignController extends Controller{
     public function index(){
-        // Simpan URL sebelumnya dalam session, kecuali rute login sendiri
-        session(['previous_url' => url()->previous()]);
         return view('login');
-}
+    }
 
     public function sign(Request $request){
         switch ($request['sign']) {
@@ -57,6 +55,6 @@ class SignController extends Controller{
             $request->session()->regenerate();
             return redirect()->route('home');
         }
-        return back()->with('message', 'gagal login');
+        return redirect()->route('login')->with('message', 'gagal login');
     }
 }
