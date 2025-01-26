@@ -30,14 +30,14 @@
                     <p class="mb-0 fw-light text-secondary-emphasis">{{$task->due_date === null ? 'No dateline' : Str::dateForID($task->due_date, $date_format, 'Y-m-d H:i:s') }}</p>
                     <p class="mb-0 me-2 text-{{ $task->is_group == 0 ? 'success-emphasis' : 'warning-emphasis' }}" style="font-size: .75rem">{{ $task->is_group == 0 ? 'Individu' : 'Kelompok' }}</p>
                 </div>
-            </div>
-            <div class="cut-width-task d-flex align-items-center">
-                <select url="/TaskNode/update/task" triger-ajax='input' ajax-assignment_id="{{ $task->id }}" name="status" id="status" class="dropdown-toggle btn btn-success ajax" style="font-size: .75rem">
-                    <option class="d-none">{{ $task->recordById->count() ? Str::replace(['_', '-'],' ',Str::title($task->recordById[0]->status)) : 'Panding' }}</option>
-                    <option value="pending" class="text-bg-secondary">Panding</option>
-                    <option value="in_progress" class="text-bg-secondary">In Progres</option>
-                    <option value="completed" class="text-bg-secondary">Completed</option>
-                </select>
+                <div class="d-flex align-items-center">
+                    <select url="/TaskNode/update/task" triger-ajax='input' ajax-assignment_id="{{ $task->id }}" name="status" id="status" class="dropdown-toggle btn btn-success ajax" style="font-size: .75rem">
+                        <option class="d-none">{{ $task->recordById->count() ? Str::replace(['_', '-'],' ',Str::title($task->recordById[0]->status)) : 'Panding' }}</option>
+                        <option value="pending" class="text-bg-secondary">Panding</option>
+                        <option value="in_progress" class="text-bg-secondary">In Progres</option>
+                        <option value="completed" class="text-bg-secondary">Completed</option>
+                    </select>
+                </div>
             </div>
         </div>
     </div>
