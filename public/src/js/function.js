@@ -199,7 +199,7 @@ document.addEventListener('DOMContentLoaded', function(e){
     // dropdown
     const dropdown = document.querySelectorAll('.dropdown-item');
     [...dropdown].forEach(dropdown => {
-        if(dropdown.classList.change('dropdown-normal')) return;
+        if(dropdown.classList.change('dropdown-normal')) return 0;
         dropdown.addEventListener('click', function(d){
             // d pasti dropdown-item
             d = d.target
