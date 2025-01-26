@@ -53,7 +53,7 @@
                 <select name="category" id="" class="form-select pe-1 border-0 bg-transparent" style="font-size: .75rem">
                     <option value='' class="text-bg-dark" style="font-size: 1rem">Matkul/Mapel</option>
                     @foreach ($categories as $c)
-                        <option value="{{ $c }}" class="text-bg-dark" style="font-size: 1rem">{{ $c }}</option>
+                        <option value="{{ Str::lower($c) }}" class="text-bg-dark" style="font-size: 1rem">{{ $c }}</option>
                     @endforeach
                 </select>
             </div>

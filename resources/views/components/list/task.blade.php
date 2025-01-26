@@ -1,6 +1,6 @@
 <!-- Walk as if you are kissing the Earth with your feet. - Thich Nhat Hanh -->
 {{-- syarat ini berjalan dengan baik di luar loop ada .container --}}
-@props(['task', 'date_format' => 'j M Y', 'icon'])
+@props(['task', 'date_format' => 'D, d M Y', 'icon'])
 <li class="px-0 list-group-item list-group-item-action list" category="{{ Str::lower($task->category) }}" title="{{ Str::lower($task->title) }}">
     <div class="container-fluid">
         <div class="d-flex w-100" id="parent-task-{{ $task->id }}">
@@ -27,7 +27,7 @@
                 {{-- @dd($task) --}}
                 <p class="mb-0 text-truncate">{{ $task->creator_id === Auth::user()->id ? '*' : '' }}{{ $task->category.' - '.Str::title($task->title) }}</p>
                 <div class="d-flex justify-content-between">
-                    <p class="mb-0 fw-light text-secondary-emphasis">{{$task->due_date === null ? 'No dateline' : Str::dateForID($task->due_date, 'D, d M Y', 'Y-m-d H:i:s') }}</p>
+                    <p class="mb-0 fw-light text-secondary-emphasis">{{$task->due_date === null ? 'No dateline' : Str::dateForID($task->due_date, $date_format, 'Y-m-d H:i:s') }}</p>
                     <p class="mb-0 me-2 text-{{ $task->is_group == 0 ? 'success-emphasis' : 'warning-emphasis' }}" style="font-size: .75rem">{{ $task->is_group == 0 ? 'Individu' : 'Kelompok' }}</p>
                 </div>
             </div>
