@@ -7,7 +7,7 @@
   data-bs-container="body"
   data-bs-toggle="popover"
   data-bs-placement="bottom" 
-  data-bs-title="{{ Str::title($task->category) }}"
+  data-bs-title="{{ Str::upper($task->category) }}"
   data-bs-content="{{ Str::title($task->title) }}"
   data-bs-custom-class="popover-violet">
   
