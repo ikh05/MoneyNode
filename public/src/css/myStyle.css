@@ -10,9 +10,9 @@ body {
 /* castom popover */
 .popover-violet {
     --bs-popover-max-width: 200px;
-    --bs-popover-border-color: var(--bd-violet-bg);
-    --bs-popover-header-bg: var(--bd-violet-bg);
-    --bs-popover-header-color: var(--bs-white);
+    --bs-popover-border-color: #6f42c1;
+    --bs-popover-header-bg: #6f42c1;
+    --bs-popover-header-color: #ead0ff;
     --bs-popover-body-padding-x: 1rem;
     --bs-popover-body-padding-y: .5rem;
 }
