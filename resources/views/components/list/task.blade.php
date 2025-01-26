@@ -8,7 +8,8 @@
   data-bs-toggle="popover"
   data-bs-placement="bottom" 
   data-bs-title="{{ Str::title($task->category) }}"
-  data-bs-content="{{ Str::title($task->title) }}">
+  data-bs-content="{{ Str::title($task->title) }}"
+  data-bs-trigger="focus">
   
     <div class="container-fluid">
         <div class="d-flex w-100" id="parent-task-{{ $task->id }}">
