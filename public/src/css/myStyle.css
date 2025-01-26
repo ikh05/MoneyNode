@@ -1,3 +1,13 @@
+/* Body */
+body {
+    /* not block and copy */
+    -webkit-user-select: none; /* Safari */
+    -moz-user-select: none; /* Firefox */
+    -ms-user-select: none; /* IE10+ dan Edge */
+    user-select: none; /* Standar sintaks */
+}
+
+
 /* Styling untuk efek 3D flip */
 .card-container {
     perspective: 1000px;
