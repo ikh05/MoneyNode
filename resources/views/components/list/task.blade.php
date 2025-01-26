@@ -4,9 +4,12 @@
 <li class="px-0 list-group-item list-group-item-action list" 
   category="{{ Str::lower($task->category) }}" 
   title="{{ Str::lower($task->title) }}"
-  data-bs-toggle="tooltip" 
+  data-bs-container="body"
+  data-bs-toggle="popover"
   data-bs-placement="bottom" 
-  data-bs-title="{{ Str::title($task->title) }}">
+  data-bs-title="{{ Str::title($task->category) }}"
+  data-bs-content="{{ Str::title($task->title) }}">
+  
     <div class="container-fluid">
         <div class="d-flex w-100" id="parent-task-{{ $task->id }}">
             {{-- icon --}}
