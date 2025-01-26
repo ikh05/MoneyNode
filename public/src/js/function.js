@@ -324,9 +324,10 @@ function applyFilter(filterElement) {
         list.classList.remove('d-none');
         filterInputs.forEach(filter => {
             if(!filter.hasAttribute('special')){
-                if(filter.value !== '' && list.hasAttribute(filter.getAttribute('name'))){
+                filterValue = filter.value.toLowerCase()
+                if(filterValue !== '' && list.hasAttribute(filter.getAttribute('name'))){
                     let list_value = list.getAttribute(filter.getAttribute('name'));
-                    if(!list_value.includes(filter.value)) list.classList.add('d-none');
+                    if(!list_value.includes(filterValue)) list.classList.add('d-none');
                 }
             }else{
                 switch (filter.getAttribute('special')) {

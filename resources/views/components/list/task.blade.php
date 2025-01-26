@@ -1,7 +1,7 @@
 <!-- Walk as if you are kissing the Earth with your feet. - Thich Nhat Hanh -->
 {{-- syarat ini berjalan dengan baik di luar loop ada .container --}}
 @props(['task', 'date_format' => 'j M Y', 'icon'])
-<li class="px-0 list-group-item list-group-item-action list" category="{{ $task->category }}" title="{{ $task->title }}">
+<li class="px-0 list-group-item list-group-item-action list" category="{{ Str::lower($task->category) }}" title="{{ Str::lower($task->title) }}">
     <div class="container-fluid">
         <div class="d-flex w-100" id="parent-task-{{ $task->id }}">
             {{-- icon --}}
@@ -38,24 +38,6 @@
                     <option value="in_progress" class="text-bg-secondary">In Progres</option>
                     <option value="completed" class="text-bg-secondary">Completed</option>
                 </select>
-                
-                {{-- <div class="dropdown">
-                    <button class="btn btn-success dropdown-toggle" type="button" data-bs-toggle="dropdown" style="font-size: .75rem">{{ $task->recordById->count() ? $task->recordById[0]->status : 'Pandding' }}</button>
-                    <ul class="dropdown-menu">
-                        <li>
-                            <a url="/TaskNode/update/task" class="dropdown-item ajax" 
-                            ajax-status="padding" ajax-assignment_id="{{ $task->id }}">Padding</a>
-                        </li>
-                        <li>
-                            <a url="/TaskNode/update/task" class="dropdown-item ajax" 
-                            ajax-status="in_progress" ajax-assignment_id="{{ $task->id }}">In Progres</a>
-                        </li>
-                        <li>
-                            <a url="/TaskNode/update/task" class="dropdown-item ajax" 
-                            ajax-status="completed" ajax-assignment_id="{{ $task->id }}">Completed</a>
-                        </li>
-                    </ul>
-                </div> --}}
             </div>
         </div>
     </div>
