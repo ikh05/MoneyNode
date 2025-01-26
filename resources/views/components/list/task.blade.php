@@ -1,7 +1,12 @@
 <!-- Walk as if you are kissing the Earth with your feet. - Thich Nhat Hanh -->
 {{-- syarat ini berjalan dengan baik di luar loop ada .container --}}
 @props(['task', 'date_format' => 'D, d M Y', 'icon'])
-<li class="px-0 list-group-item list-group-item-action list" category="{{ Str::lower($task->category) }}" title="{{ Str::lower($task->title) }}">
+<li class="px-0 list-group-item list-group-item-action list" 
+  category="{{ Str::lower($task->category) }}" 
+  title="{{ Str::lower($task->title) }}"
+  data-bs-toggle="tooltip" 
+  data-bs-placement="bottom" 
+  data-bs-title="{{ Str::title($task->title) }}">
     <div class="container-fluid">
         <div class="d-flex w-100" id="parent-task-{{ $task->id }}">
             {{-- icon --}}
